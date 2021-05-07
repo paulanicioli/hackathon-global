@@ -1,58 +1,67 @@
+// routes/auth-routes.js
+
 const express = require('express');
-const { format } = require('date-format-parse');
-require('dotenv').config();
+const authRoutes = express.Router();
 
-const router = express();
-
+const passport = require('passport');
+const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
 
-const User = require('../models/User');
+const SALT_ROUNDS = 10;
 
-const bcrypt = require('bcrypt');
+// require the user model !!!!
+const User = require('../models/user-model');
 
-const fileUploader = require('../config/cloudinary.config');
+authRoutes.post('/signup', (req, res, next) => {
+  const { nickname, password } = req.body;
 
-router.get('/login', (req, res) => {
-  res.renderFiles('login');
-});
-
-router.post('/login', async (req, res) => {
-  try {
-    const { userNickname, userPassword } = req.body;
-
-    const userFromDb = await User.findOne({
-      nickname: userNickname,
-    });
-
-    if (!userFromDb) {
-      console.log('Could not find user in db');
-      return res.render('login', {
-        loginError: 'Wrong nickname or password',
-        userEmail,
-      });
-    }
-    const isPasswordValid = bcrypt.compareSync(
-      userPassword,
-      userFromDb.password
-    );
-
-    if (!isPasswordValid) {
-      return res.render('login', {
-        loginError: 'Wrong nickname or password',
-        userEmail,
-      });
-    }
-
-    req.session.currentUser = userFromDb;
-
-    res.redirect('/messages');
-  } catch (error) {
-    console.log('Error in the login route ===> ', error);
+  if (!nickname || !password) {
+    res.status(400).json({ message: 'Provide username and password' });
+    return;
   }
+
+  // make sure passwords are strong:
+  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+  if (!regex.test(password)) {
+    res.status(500).render('auth/signup', {
+      errorMessage:
+        'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.',
+    });
+    return;
+  }
+
+  bcryptjs
+    .genSalt(SALT_ROUNDS)
+    .then((salt) => bcryptjs.hash(password, salt))
+    .then((hashedPassword) => {
+      return User.create({
+        // username: username
+        nickname,
+        email,
+        // password => this is the key from the User model
+        //     ^
+        //     |            |--> this is placeholder (how we named returning value from the previous method (.hash()))
+        password: hashedPassword,
+      });
+    })
+    .then((userFromDB) => {
+      console.log('Newly created user is: ', userFromDB);
+      // Send the user's information to the frontend
+      // We can use also: res.status(200).json(req.user);
+      res.status(200).json(userFromDB);
+    })
+    .catch((error) => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.status(500).render('auth/signup', { errorMessage: error.message });
+      } else if (error.code === 11000) {
+        res.status(500).render('auth/signup', {
+          errorMessage:
+            'Username and email need to be unique. Either username or email is already used.',
+        });
+      } else {
+        next(error);
+      }
+    }); // close .catch()
 });
 
-router.get('/logout', (req, res) => {
-  req.session.destroy();
-
-  res.redirect('/login');
-});
+module.exports = authRoutes;
