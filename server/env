@@ -1,0 +1,6 @@
+PORT=3000
+MONGODB_URI=mongodb+srv://admin:BD-275$_iJMkmMd@ironhack-hackathon.0qzjo.mongodb.net/realtime-chat?retryWrites=true&w=majority
+CLOUDINARY_NAME=de4qbzjqh
+CLOUDINARY_KEY=613332452165213
+CLOUDINARY_SECRET=fwC7M62QcW1G_W7mtQh5C-hTgRo
+SESS_SECRET=ahufbwrlgbrwvdsvpzdojrjg
