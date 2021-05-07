@@ -13,9 +13,9 @@ const SALT_ROUNDS = 10;
 const User = require('../models/user-model');
 
 authRoutes.post('/signup', (req, res, next) => {
-  const { username, password } = req.body;
+  const { nickname, password } = req.body;
 
-  if (!username || !password) {
+  if (!nickname || !password) {
     res.status(400).json({ message: 'Provide username and password' });
     return;
   }
@@ -36,7 +36,7 @@ authRoutes.post('/signup', (req, res, next) => {
     .then((hashedPassword) => {
       return User.create({
         // username: username
-        username,
+        nickname,
         email,
         // password => this is the key from the User model
         //     ^
