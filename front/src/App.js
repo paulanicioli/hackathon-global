@@ -5,8 +5,10 @@ import Navbar from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/auth-service';
+
 import Chat from './components/chat/Chat.js'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 class App extends Component {
   state = { loggedInUser: null };
@@ -66,6 +68,7 @@ class App extends Component {
             </Switch>
             <Route exact path="/Chat" component={Chat} />
           </Router>
+          <Route exact path="/Chat" component={Chat} />
         </div>
       );
     }

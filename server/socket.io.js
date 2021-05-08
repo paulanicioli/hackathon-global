@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
-const hbs = require('hbs');
+// const hbs = require('hbs');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
@@ -21,8 +21,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // Express View engine setup
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // SESSION SETTINGS:
@@ -71,6 +71,7 @@ io.on('connection', (socket) => {
   // console.log('socket id: ', socket.id);
 
   socket.on('new-message', data => {
+
     console.log('data: ', data);
     io.emit('message', data);
   })
@@ -79,6 +80,7 @@ io.on('connection', (socket) => {
     console.log('disconnected');
   })
   })
+
 
 module.exports = app;
 

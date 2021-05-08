@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Chat.css';
 import socketIOClient from 'socket.io-client';
 
 const socket = socketIOClient('http://localhost:5000');
+
 
 class Chat extends React.Component {
     constructor() {
@@ -62,3 +63,4 @@ class Chat extends React.Component {
   }
   
   export default Chat;
+
