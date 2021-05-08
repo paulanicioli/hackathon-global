@@ -11,11 +11,9 @@ class Login extends Component {
     event.preventDefault();
     const username = this.state.username;
     const password = this.state.password;
-    console.log('Event being handled!');
     this.service
       .login(username, password)
       .then((response) => {
-        console.log(response);
         this.setState({
           username: response.username,
           password: response.password,

@@ -28,15 +28,17 @@ class AuthService {
   };
 
   login = async (username, password) => {
-    console.log(`http://localhost:${process.env.BACK_PORT}/api`);
     const loggedUser = await this.service
       .post('/login', { username: username, password: password })
       .then((response) => response.data);
     return loggedUser;
   };
 
-  logout = () => {
-    return this.service.post('/logout', {}).then((response) => response.data);
+  logout = async () => {
+    const loggedOutUser = await this.service
+      .post('/logout', {})
+      .then((response) => response.data);
+    return loggedOutUser;
   };
 }
 

@@ -11,10 +11,9 @@ class Navbar extends Component {
     this.setState({ ...this.state, loggedInUser: nextProps['userInSession'] });
   }
 
-  logoutUser = () => {
-    this.service.logout().then(() => {
+  logoutUser = async () => {
+    await this.service.logout().then(() => {
       this.setState({ loggedInUser: null });
-      this.props.getUser(null);
     });
   };
 
