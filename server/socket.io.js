@@ -9,11 +9,15 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:' + '3000',
   },
 });
+
+
+
 const session = require('express-session');
 const passport = require('passport');
 
@@ -36,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // SESSION SETTINGS:
 app.use(
   session({
-    secret: 'some secret goes here',
+    secret: process.env.SESS_SECRET,
     resave: true,
     saveUninitialized: false,
   })
@@ -50,12 +54,25 @@ app.use(passport.session());
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
 
+
 const messageRoutes = require('./routes/messages.routes');
 app.use('/api/messages', messageRoutes);
 
 server.listen(process.env.PORT, () => {
   console.log('listening' + ' ' + process.env.PORT);
 });
+
+server.listen(process.env.PORT, () => {
+	console.log('listening' + ' ' + process.env.PORT);
+});
+
+const io = new Server(server, {
+	cors: {
+		origin: 'http://localhost:' + '3000',
+	},
+});
+//sockt io
+
 
 //listen to all incoming messages
 io.on('connection', (socket) => {
