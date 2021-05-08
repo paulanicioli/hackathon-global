@@ -53,6 +53,7 @@ const server = app.listen(5000, () => {
   console.log('listening');
 });
 
+
 //sockt io
 
 const io = socket(server, {
@@ -70,12 +71,16 @@ io.on('connection', (socket) => {
   // console.log('socket id: ', socket.id);
 
   socket.on('new-message', data => {
-    // console.log('data: ', data);
+
+    console.log('data: ', data);
     io.emit('message', data);
   })
+
   socket.on('disconnect', () => {
     console.log('disconnected');
   })
-})
+  })
+
 
 module.exports = app;
+
