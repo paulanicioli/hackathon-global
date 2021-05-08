@@ -5,6 +5,7 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const socket = require('socket.io')
 
 const app = express();
 
@@ -48,8 +49,36 @@ app.use(
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
 
-app.listen(3000, () => {
+const server = app.listen(5000, () => {
   console.log('listening');
 });
 
+
+//sockt io
+
+const io = socket(server, {
+  cors : {
+    origin: 'http://localhost:3000'
+  }
+})
+
+
+//listen to all incoming messages
+io.on('connection', (socket) => {
+
+  console.log('new connection');
+  //this is an object of the socket connection
+  // console.log('socket id: ', socket.id);
+
+  socket.on('new-message', data => {
+    console.log('data: ', data);
+    io.emit('message', data);
+  })
+
+  socket.on('disconnect', () => {
+    console.log('disconnected');
+  })
+  })
+
 module.exports = app;
+

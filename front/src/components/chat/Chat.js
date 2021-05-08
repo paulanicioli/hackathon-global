@@ -1,40 +1,64 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './Chat.css';
 import socketIOClient from 'socket.io-client';
 
-const socket = socketIOClient('http://localhost:3000');
+const socket = socketIOClient('http://localhost:5000');
 
-export default class Chat extends Component {
-
-    state = {
-        message: ''
-      }
-
+class Chat extends React.Component {
+    constructor() {
+      super();
+      this.state = { message: "", chat: []};
+    }
+  
     componentDidMount() {
-        socket.on('message', data => {
-            this.setState ({
-                message: data.message
-            })
-        })
-    }
-
-    onChange = event => {
+      socket.on("chat message", (message) => {
         this.setState({
-          message: event.target.value
-        })
-        socket.emit('new-message', {
-          message: event.target.value
-        })
-      }
-
-    render() {
-        return (
-            <div className="App" >
-                <header className="App-header">
-                    <h1>Hello</h1>
-                    <input type="text" value={this.state.message} onChange={this.onChange} />
-                </header>
-            </div>
-        )
+          chat: [...this.state.chat, message]
+        });
+      });
     }
-}
+  
+    onTextChange = event => {
+      this.setState({ 
+        message: event.target.value 
+      });
+    };
+  
+    onMessageSubmit = () => {
+      const message = this.state;
+      socket.emit("message", {
+        message: this.state.message
+      })
+      this.setState({ 
+        message: "" });
+    }
+  
+    renderChat() {
+      const { chat } = this.state;
+      return chat.map((message, id) => (
+        <div key={id}>
+            <h2>
+          <span>{message}</span>
+          </h2>
+        </div>
+      ));
+    }
+  
+    render() {
+      return (
+        <div>
+          <span>Message</span>
+          <input
+            name="message"
+            onChange={event => this.onTextChange(event)}
+            value={this.state.message}
+          />
+          <button onClick={this.onMessageSubmit}>Send</button>
+          <div>
+          {this.renderChat()}</div>
+        </div>
+      );
+    }
+  }
+  
+  export default Chat;
