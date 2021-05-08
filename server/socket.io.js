@@ -46,14 +46,14 @@ const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
 
 const server = app.listen(process.env.PORT, () => {
-  console.log('listening');
+  console.log('App listening on port', process.env.PORT);
 });
 
 //sockt io
 
 const io = socket(server, {
   cors: {
-    origin: 'http://localhost:' + process.env.PORT,
+    origin: 'http://localhost:3000',
   },
 });
 
