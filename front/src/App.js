@@ -3,8 +3,8 @@ import './App.css';
 import Navbar from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
-import AuthService from '../auth/auth-service';
-import { Switch, Route } from 'react-router-dom';
+import AuthService from './components/auth/auth-service';
+import { BrowserRouter, Switch, Router, Route } from 'react-router-dom';
 
 class App extends Component {
   state = { loggedInUser: null };
@@ -49,18 +49,20 @@ class App extends Component {
       return (
         <div className="App">
           <Navbar userInSession={this.state.loggedInUser} />
-          <Switch>
-            <Route
-              exact
-              path="/signup"
-              render={() => <Signup getUser={this.getTheUser} />}
-            />
-            <Route
-              exact
-              path="/"
-              render={() => <Login getUser={this.getTheUser} />}
-            />
-          </Switch>
+          <Router>
+            <Switch>
+              <Route
+                exact
+                path="/signup"
+                render={() => <Signup getUser={this.getTheUser} />}
+              />
+              <Route
+                exact
+                path="/"
+                render={() => <Login getUser={this.getTheUser} />}
+              />
+            </Switch>
+          </Router>
         </div>
       );
     }
