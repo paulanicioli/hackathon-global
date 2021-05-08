@@ -28,7 +28,7 @@ class Signup extends Component {
         this.setState({
           nickname: '',
           email: '',
-          birthDate: new Date(),
+          birthDate: '',
           gender: '',
           language: 'en',
           password: '',
@@ -82,6 +82,7 @@ class Signup extends Component {
               value={this.state.gender}
               onChange={(e) => this.handleChange(e)}
             >
+              <option value="">Choose your gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="non-binary">Non-binary</option>
@@ -95,7 +96,9 @@ class Signup extends Component {
               value={this.state.language}
               onChange={(e) => this.handleChange(e)}
             >
-              <option value="en">English</option>
+              <option selected value="en">
+                English
+              </option>
               <option value="es">Español</option>
               <option value="pt">Português</option>
               <option value="de">Deutsch</option>
@@ -105,6 +108,7 @@ class Signup extends Component {
           <label>
             Password:
             <input
+              type="password"
               name="password"
               value={this.state.password}
               onChange={(e) => this.handleChange(e)}

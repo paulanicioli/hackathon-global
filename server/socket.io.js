@@ -50,11 +50,16 @@ app.use(passport.session());
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
 
-server.listen(process.env.PORT, () => {
-	console.log('listening' + ' ' + process.env.PORT);
-});
+const server = app.listen(process.env.PORT, () => {
+  console.log('App listening on port', process.env.PORT);
 
 //sockt io
+
+const io = socket(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+  },
+});
 
 //listen to all incoming messages
 io.on('connection', (socket) => {

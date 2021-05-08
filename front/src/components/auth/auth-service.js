@@ -27,8 +27,9 @@ class AuthService {
   };
 
   login = (nickname, password) => {
+    console.log('nickname ===>', nickname, 'password ===>', password);
     return this.service
-      .post('/login', { nickname, password })
+      .post('/login', { nickname: nickname, password: password })
       .then((response) => response.data);
   };
 

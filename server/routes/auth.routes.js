@@ -13,34 +13,47 @@ const User = require('../models/User');
 
 authRoutes.post('/signup', (req, res, next) => {
   const { nickname, email, birthDate, gender, language, password } = req.body;
-
-  if (!nickname || !password) {
-    res.status(400).json({ message: 'Provide username and password' });
-    return;
+  console.log(req.body);
+  if (!nickname || !password || !email) {
+    console.log('erro ao checar variáveis');
+    return res
+      .status(400)
+      .json({ message: 'Provide nickname, email and password' });
   }
 
   // make sure passwords are strong:
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
-    res.status(500).json({
+    console.log('erro de senha!');
+    return res.status(500).json({
       errorMessage:
         'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.',
     });
-    return;
+  }
+
+  const newUser = {
+    nickname,
+    email,
+  };
+
+  if (gender) {
+    newUser.gender = gender;
+  }
+
+  if (language) {
+    newUser.language = language;
+  }
+
+  if (birthDate) {
+    newUser.birthDate = birthDate;
   }
 
   bcryptjs
     .genSalt(SALT_ROUNDS)
     .then((salt) => bcryptjs.hash(password, salt))
     .then((hashedPassword) => {
-      return User.create({
-        nickname,
-        email,
-        birthDate,
-        gender,
-        language,
-        password: hashedPassword,
-      });
+      newUser.password = hashedPassword;
+      return User.create(newUser);
     })
     .then((userFromDB) => {
       console.log('Newly created user is: ', userFromDB);
@@ -48,13 +61,16 @@ authRoutes.post('/signup', (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
+        console.log('error ==> ', error);
         res.status(500).json({ errorMessage: error.message });
       } else if (error.code === 11000) {
+        console.log('error ==> ', error);
         res.status(500).json({
           errorMessage:
             'Username and email need to be unique. Either username or email is already used.',
         });
       } else {
+        console.log('error ==> ', error);
         next(error);
       }
     });
