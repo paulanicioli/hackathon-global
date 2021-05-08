@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Signup extends Component {
   state = {
-    nickname: '',
+    username: '',
     password: '',
     birthDate: new Date(),
     gender: '',
@@ -15,7 +15,7 @@ class Signup extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    const nickname = this.state.nickname;
+    const username = this.state.username;
     const email = this.state.email;
     const birthDate = this.state.birthDate;
     const gender = this.state.gender;
@@ -23,10 +23,10 @@ class Signup extends Component {
     const password = this.state.password;
 
     this.service
-      .signup(nickname, email, birthDate, gender, language, password)
+      .signup(username, email, birthDate, gender, language, password)
       .then((response) => {
         this.setState({
-          nickname: '',
+          username: '',
           email: '',
           birthDate: '',
           gender: '',
@@ -48,11 +48,11 @@ class Signup extends Component {
       <div>
         <form className="signup-form" onSubmit={this.handleFormSubmit}>
           <label>
-            Nickname:
+            username:
             <input
               type="text"
-              name="nickname"
-              value={this.state.nickname}
+              name="username"
+              value={this.state.username}
               onChange={(e) => this.handleChange(e)}
             />
           </label>

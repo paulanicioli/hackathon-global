@@ -1,40 +1,42 @@
 import React, { Component } from 'react';
 import './Chat.css';
 import socketIOClient from 'socket.io-client';
+// import AuthService from './chat-service';
 
 const socket = socketIOClient('http://localhost:5000');
 
 class Chat extends React.Component {
-
   constructor() {
     super();
-    this.state = { message: "", chat: [] };
+    this.state = { message: '', chat: [] };
   }
 
+  // service = new AuthService();
+
   componentDidMount() {
-    socket.on("chat message", (message) => {
+    socket.on('chat message', (message) => {
       this.setState({
-        chat: [...this.state.chat, message]
+        chat: [...this.state.chat, message],
       });
     });
   }
 
-  onTextChange = event => {
+  onTextChange = (event) => {
     this.setState({
-      message: event.target.value
+      message: event.target.value,
     });
   };
 
   onMessageSubmit = () => {
     const message = this.state;
-    socket.emit("message", {
-      message: this.state.message
-    })
-    console.log(message)
-    this.setState({
-      message: ""
+    socket.emit('message', {
+      message: this.state.message,
     });
-  }
+    console.log(message);
+    this.setState({
+      message: '',
+    });
+  };
 
   renderChat() {
     const { chat } = this.state;
@@ -47,22 +49,27 @@ class Chat extends React.Component {
     ));
   }
 
+  // uploadInDB () {
+  //   this.service
+  //     .createNewMessage(content, language, user)
+  //     .then((response) => {
+  //     })
+  // }
+
   render() {
     return (
       <div>
         <span>Message</span>
         <input
           name="message"
-          onChange={event => this.onTextChange(event)}
+          onChange={(event) => this.onTextChange(event)}
           value={this.state.message}
         />
         <button onClick={this.onMessageSubmit}>Send</button>
-        <div>
-          {this.renderChat()}</div>
+        <div>{this.renderChat()}</div>
       </div>
     );
   }
 }
-
 
 export default Chat;

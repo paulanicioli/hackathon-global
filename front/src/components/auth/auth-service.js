@@ -9,10 +9,10 @@ class AuthService {
     this.service = service;
   }
 
-  signup = (nickname, email, birthDate, gender, language, password) => {
+  signup = (username, email, birthDate, gender, language, password) => {
     return this.service
       .post('/signup', {
-        nickname,
+        username,
         email,
         birthDate,
         gender,
@@ -26,11 +26,11 @@ class AuthService {
     return this.service.get('/loggedin').then((response) => response.data);
   };
 
-  login = (nickname, password) => {
-    console.log('nickname ===>', nickname, 'password ===>', password);
-    return this.service
-      .post('/login', { nickname: nickname, password: password })
+  login = async (username, password) => {
+    const loggedUser = await this.service
+      .post('/login', { username: username, password: password })
       .then((response) => response.data);
+    return loggedUser;
   };
 
   logout = () => {

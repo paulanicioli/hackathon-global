@@ -12,19 +12,16 @@ const SALT_ROUNDS = 10;
 const User = require('../models/User');
 
 authRoutes.post('/signup', (req, res, next) => {
-  const { nickname, email, birthDate, gender, language, password } = req.body;
-  console.log(req.body);
-  if (!nickname || !password || !email) {
-    console.log('erro ao checar variáveis');
+  const { username, email, birthDate, gender, language, password } = req.body;
+  if (!username || !password || !email) {
     return res
       .status(400)
-      .json({ message: 'Provide nickname, email and password' });
+      .json({ message: 'Provide username, email and password' });
   }
 
   // make sure passwords are strong:
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
-    console.log('erro de senha!');
     return res.status(500).json({
       errorMessage:
         'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.',
@@ -32,7 +29,7 @@ authRoutes.post('/signup', (req, res, next) => {
   }
 
   const newUser = {
-    nickname,
+    username,
     email,
   };
 
@@ -76,9 +73,10 @@ authRoutes.post('/signup', (req, res, next) => {
     });
 });
 
-authRoutes.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, theUser, failureDetails) => {
+authRoutes.post('/login', async (req, res, next) => {
+  await passport.authenticate('local', (err, theUser, failureDetails) => {
     if (err) {
+      console.log('Error 1 ===> ', err);
       res
         .status(500)
         .json({ message: 'Something went wrong authenticating user' });
@@ -86,12 +84,14 @@ authRoutes.post('/login', (req, res, next) => {
     }
 
     if (!theUser) {
+      console.log('Error 2 ===> ', failureDetails);
       res.status(401).json(failureDetails);
       return;
     }
 
     req.login(theUser, (err) => {
       if (err) {
+        console.log('Error 3 ===> ', err);
         res.status(500).json({ message: 'Session save went bad.' });
         return;
       }

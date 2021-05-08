@@ -18,15 +18,15 @@ passport.deserializeUser((userIdFromSession, cb) => {
 });
 
 passport.use(
-  new LocalStrategy((nickname, password, next) => {
-    User.findOne({ nickname: nickname }, (err, foundUser) => {
+  new LocalStrategy(async (username, password, next) => {
+    await User.findOne({ username: username }, (err, foundUser) => {
       if (err) {
         next(err);
         return;
       }
 
       if (!foundUser) {
-        next(null, false, { message: 'Incorrect nickname.' });
+        next(null, false, { message: 'Incorrect username.' });
         return;
       }
 
