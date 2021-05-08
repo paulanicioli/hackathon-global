@@ -1,24 +1,30 @@
 require('dotenv').config();
 
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const express = require('express');
-const favicon = require('serve-favicon');
 const hbs = require('hbs');
 const mongoose = require('mongoose');
-const logger = require('morgan');
+const cors = require('cors');
 const path = require('path');
 
-require('./configs/passport');
-
-const authRoutes = require('./routes/auth.routes');
-app.use('/api', authRoutes);
+const app = express();
 
 const session = require('express-session');
 const passport = require('passport');
 
-const app = express();
+require('./configs/passport.config');
+require('./configs/mondodb.config');
 
+// Middleware Setup
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Express View engine setup
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+app.use(express.static(path.join(__dirname, 'public')));
+
+// SESSION SETTINGS:
 app.use(
   session({
     secret: 'some secret goes here',
@@ -30,24 +36,23 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//  Let's uncomment this portion later on so it handles errors
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3000'],
+  })
+);
 
-// app.use((req, res, next) => {
-//     res.status(404);
-//     res.render('not-found');
-//   });
+// ROUTES MIDDLEWARE:
 
-// app.use((err, req, res, next) => {
-//   console.error('ERROR', req.method, req.path, err);
+const index = require('../react-authentication/routes/index');
+app.use('/', index);
 
-//   if (!res.headersSent) {
-//     res.status(500);
-//     res.render('error');
-//   }
-// });
+const authRoutes = require('./routes/auth.routes');
+app.use('/api', authRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log('App rodando na porta ', process.env.PORT);
+app.listen(3000, () => {
+  console.log('listening');
 });
 
 module.exports = app;

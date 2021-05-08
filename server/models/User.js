@@ -17,11 +17,11 @@ const userSchema = new Schema(
     },
     active: { type: Boolean, default: true },
     groups: { type: [Schema.Types.ObjectId], ref: 'Group' },
-    first_login: { type: Boolean, default: true },
     gender: {
       type: String,
       enum: ['male', 'female', 'non-binary'],
     },
+    language: { type: String, enum: ['en', 'es', 'pt', 'de', 'fr'] },
   },
   {
     timestamps: true,
