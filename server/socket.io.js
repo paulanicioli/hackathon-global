@@ -59,16 +59,11 @@ server.listen(process.env.PORT, () => {
   console.log('Listening on port' + ' ' + process.env.PORT);
 });
 
-const io = new Server(server, {
-  cors: {
-    origin: 'http://localhost:' + process.env.FRONT_PORT,
-  },
-});
 //sockt io
 
 //listen to all incoming messages
 io.on('connection', (socket) => {
-  console.log('new connection');
+  console.log('New IO connection');
   //this is an object of the socket connection
   // console.log('socket id: ', socket.id);
 
