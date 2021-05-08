@@ -68,7 +68,6 @@ class App extends Component {
             </Switch>
             <Route exact path="/Chat" component={Chat} />
           </Router>
-          <Route exact path="/Chat" component={Chat} />
         </div>
       );
     }
