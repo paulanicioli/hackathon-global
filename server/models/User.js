@@ -4,12 +4,12 @@ const userSchema = new Schema(
   {
     nickname: {
       type: String,
-      required: true,
+      required: [true, 'Please provide a nickname.'],
       unique: true,
-      minlength: 3,
-      maxlength: 30,
+      minlength: [3, 'Your nickname must have three characters or more'],
+      maxlength: [30, 'Your nickname cannot have more than 30 characters.'],
     },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: [true, 'Please provide a valid email.'], unique: true },
     password: { type: String, required: true, min: 8 },
     birthDate: { type: Date },
     profilePicture: {
