@@ -12,7 +12,6 @@ class Chat extends React.Component {
 
 	componentDidMount() {
 		socket.on('new-message', (message) => {
-			console.log(message);
 			this.setState({
 				chat: [...this.state.chat, message],
 			});
