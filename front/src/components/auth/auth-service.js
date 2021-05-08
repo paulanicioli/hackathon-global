@@ -1,9 +1,10 @@
 import axios from 'axios';
-require('dotenv');
+require('dotenv').config();
+
 class AuthService {
   constructor() {
     let service = axios.create({
-      baseURL: `http://localhost:${process.env.BACK_PORT}/api`,
+      baseURL: `http://localhost:${process.env.REACT_APP_BACK_PORT}/api`,
       withCredentials: true,
     });
     this.service = service;
@@ -27,6 +28,7 @@ class AuthService {
   };
 
   login = async (username, password) => {
+    console.log(`http://localhost:${process.env.BACK_PORT}/api`);
     const loggedUser = await this.service
       .post('/login', { username: username, password: password })
       .then((response) => response.data);
