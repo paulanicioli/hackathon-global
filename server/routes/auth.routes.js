@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 
 const SALT_ROUNDS = 10;
 
-const User = require('../models/user-model');
+const User = require('../models/User');
 
 authRoutes.post('/signup', (req, res, next) => {
   const { nickname, email, birthDate, gender, language, password } = req.body;

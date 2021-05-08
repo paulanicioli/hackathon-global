@@ -12,7 +12,7 @@ const session = require('express-session');
 const passport = require('passport');
 
 require('./configs/passport.config');
-require('./configs/mondodb.config');
+require('./configs/mongodb.config');
 
 // Middleware Setup
 app.use(express.json());
@@ -44,9 +44,6 @@ app.use(
 );
 
 // ROUTES MIDDLEWARE:
-
-const index = require('../react-authentication/routes/index');
-app.use('/', index);
 
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
