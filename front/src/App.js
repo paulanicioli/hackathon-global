@@ -3,12 +3,12 @@ import './App.css';
 
 import Navbar from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
+import './components/auth/Signup.css';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/auth-service';
 
-import Chat from './components/chat/Chat.js'
+import Chat from './components/chat/Chat.js';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
 
 class App extends Component {
   state = { loggedInUser: null };

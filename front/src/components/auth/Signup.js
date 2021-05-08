@@ -46,7 +46,7 @@ class Signup extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleFormSubmit}>
+        <form className="signup-form" onSubmit={this.handleFormSubmit}>
           <label>
             Nickname:
             <input
@@ -76,21 +76,31 @@ class Signup extends Component {
           </label>
           <label>
             Gender:
-            <input
+            <select
               type="text"
               name="gender"
               value={this.state.gender}
               onChange={(e) => this.handleChange(e)}
-            />
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary</option>
+            </select>
           </label>
           <label>
             Language:
-            <input
+            <select
               type="text"
               name="language"
               value={this.state.language}
               onChange={(e) => this.handleChange(e)}
-            />
+            >
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="pt">Português</option>
+              <option value="de">Deutsch</option>
+              <option value="fr">Français</option>
+            </select>
           </label>
           <label>
             Password:
@@ -101,7 +111,9 @@ class Signup extends Component {
             />
           </label>
 
-          <input type="submit" value="Signup" />
+          <button type="submit" className="action-button">
+            Signup
+          </button>
         </form>
 
         <p>
