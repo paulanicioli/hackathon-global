@@ -86,13 +86,11 @@ authRoutes.post('/login', (req, res, next) => {
 });
 
 authRoutes.post('/logout', (req, res, next) => {
-  // req.logout() is defined by passport
   req.logout();
   res.status(200).json({ message: 'Log out success!' });
 });
 
 authRoutes.get('/loggedin', (req, res, next) => {
-  // req.isAuthenticated() is defined by passport
   if (req.isAuthenticated()) {
     res.status(200).json(req.user);
     return;
