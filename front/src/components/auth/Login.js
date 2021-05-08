@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AuthService from './auth-service';
 import { Link } from 'react-router-dom';
 
-class Signup extends Component {
+class Login extends Component {
   state = { username: '', password: '' };
 
   service = new AuthService();
@@ -11,14 +11,10 @@ class Signup extends Component {
     event.preventDefault();
     const username = this.state.username;
     const password = this.state.password;
-
     this.service
-      .signup(username, password)
+      .login(username, password)
       .then((response) => {
-        this.setState({
-          username: '',
-          password: '',
-        });
+        this.setState({ username: '', password: '' });
         this.props.getUser(response);
       })
       .catch((error) => console.log(error));
@@ -42,7 +38,6 @@ class Signup extends Component {
               onChange={(e) => this.handleChange(e)}
             />
           </label>
-
           <label>
             Password:
             <input
@@ -52,16 +47,15 @@ class Signup extends Component {
             />
           </label>
 
-          <input type="submit" value="Signup" />
+          <input type="submit" value="Login" />
         </form>
-
         <p>
-          Already have account?
-          <Link to={'/'}> Login</Link>
+          Don't have account?
+          <Link to={'/signup'}> Signup</Link>
         </p>
       </div>
     );
   }
 }
 
-export default Signup;
+export default Login;
