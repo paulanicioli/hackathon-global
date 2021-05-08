@@ -18,6 +18,7 @@ class Chat extends React.Component {
 		});
 	}
 
+
 	onTextChange = (event) => {
 		this.setState({
 			message: event.target.value,
@@ -25,7 +26,7 @@ class Chat extends React.Component {
 	};
 
 	onMessageSubmit = () => {
-		const message = this.state;
+		// const message = this.state;
 		socket.emit('message', {
 			message: this.state.message,
 		});

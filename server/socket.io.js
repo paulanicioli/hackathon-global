@@ -9,11 +9,7 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-	cors: {
-		origin: 'http://localhost:' + '3000',
-	},
-});
+
 const session = require('express-session');
 const passport = require('passport');
 
@@ -54,6 +50,11 @@ server.listen(process.env.PORT, () => {
 	console.log('listening' + ' ' + process.env.PORT);
 });
 
+const io = new Server(server, {
+	cors: {
+		origin: 'http://localhost:' + '3000',
+	},
+});
 //sockt io
 
 //listen to all incoming messages
@@ -64,7 +65,7 @@ io.on('connection', (socket) => {
 
 	socket.on('message', (data) => {
 		console.log('data: ', data);
-		socket.emit('new-message', data);
+		io.emit('new-message', data);
 	});
 
 	socket.on('disconnect', () => {
