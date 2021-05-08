@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Chat.css';
 import socketIOClient from 'socket.io-client';
-// import AuthService from './chat-service';
+import AuthService from './chat-service';
 
 const socket = socketIOClient('http://localhost:5000');
 
@@ -11,7 +11,7 @@ class Chat extends React.Component {
     this.state = { message: '', chat: [] };
   }
 
-  // service = new AuthService();
+  service = new AuthService();
 
   componentDidMount() {
     socket.on('new-message', (message) => {
@@ -32,9 +32,17 @@ class Chat extends React.Component {
     socket.emit('message', {
       message: this.state.message,
     });
-    this.setState({
-      message: '',
-    });
+    this.service
+      .createNewMessage(
+        this.state.message,
+        this.props.userInSession.language,
+        this.props.userInSession._id
+      )
+      .then((response) => {
+        this.setState({
+          message: '',
+        });
+      });
   };
 
   renderChat() {
@@ -50,8 +58,9 @@ class Chat extends React.Component {
 
   // uploadInDB () {
   //   this.service
-  //     .createNewMessage(content, language, user)
+  //     .createNewMessage({content: this., language, user})
   //     .then((response) => {
+  //       console.log(response);
   //     })
   // }
 

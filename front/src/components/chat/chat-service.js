@@ -9,12 +9,12 @@ class AuthService {
     this.service = service;
   }
 
-  createNewMessage = (content, language, user) => {
+  createNewMessage = (content, language, loggedInUser) => {
     return this.service
       .post('/messages/new', {
         content,
         language,
-        user,
+        loggedInUser,
       })
       .then((response) => response.data);
   };

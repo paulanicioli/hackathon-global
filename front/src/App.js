@@ -45,7 +45,11 @@ class App extends Component {
         <div className="App">
           <Navbar userInSession={this.state.loggedInUser} />
           <Switch>
-            <Route exact path="/Chat" component={Chat} />
+            <Route
+              exact
+              path="/chat"
+              component={() => <Chat userInSession={this.state.loggedInUser} />}
+            />
           </Switch>
         </div>
       );
