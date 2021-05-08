@@ -9,12 +9,12 @@ class Login extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    const username = this.state.username;
+    const nickname = this.state.nickname;
     const password = this.state.password;
     this.service
-      .login(username, password)
+      .login(nickname, password)
       .then((response) => {
-        this.setState({ username: '', password: '' });
+        this.setState({ nickname: '', password: '' });
         this.props.getUser(response);
       })
       .catch((error) => console.log(error));
@@ -33,8 +33,8 @@ class Login extends Component {
             Username:
             <input
               type="text"
-              name="username"
-              value={this.state.username}
+              name="nickname"
+              value={this.state.nickname}
               onChange={(e) => this.handleChange(e)}
             />
           </label>
