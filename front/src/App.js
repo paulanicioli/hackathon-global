@@ -4,7 +4,8 @@ import Navbar from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/auth-service';
-import { BrowserRouter, Switch, Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Chat from './components/chat/Chat'
 
 class App extends Component {
   state = { loggedInUser: null };
@@ -63,6 +64,7 @@ class App extends Component {
               />
             </Switch>
           </Router>
+          <Route exact path="/Chat" component={Chat} />
         </div>
       );
     }
