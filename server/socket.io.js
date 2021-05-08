@@ -10,6 +10,14 @@ const { Server } = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:' + '3000',
+  },
+});
+
+
+
 const session = require('express-session');
 const passport = require('passport');
 
@@ -18,10 +26,10 @@ require('./configs/mongodb.config');
 
 // Middleware Setup
 app.use(
-	cors({
-		credentials: true,
-		origin: 'http://localhost:3000',
-	})
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+  })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,11 +39,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // SESSION SETTINGS:
 app.use(
-	session({
-		secret: 'some secret goes here',
-		resave: true,
-		saveUninitialized: false,
-	})
+  session({
+    secret: process.env.SESS_SECRET,
+    resave: true,
+    saveUninitialized: false,
+  })
 );
 
 app.use(passport.initialize());
@@ -45,6 +53,14 @@ app.use(passport.session());
 
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
+
+
+const messageRoutes = require('./routes/messages.routes');
+app.use('/api/messages', messageRoutes);
+
+server.listen(process.env.PORT, () => {
+  console.log('listening' + ' ' + process.env.PORT);
+});
 
 server.listen(process.env.PORT, () => {
 	console.log('listening' + ' ' + process.env.PORT);
@@ -57,20 +73,21 @@ const io = new Server(server, {
 });
 //sockt io
 
+
 //listen to all incoming messages
 io.on('connection', (socket) => {
-	console.log('new connection');
-	//this is an object of the socket connection
-	// console.log('socket id: ', socket.id);
+  console.log('new connection');
+  //this is an object of the socket connection
+  // console.log('socket id: ', socket.id);
 
-	socket.on('message', (data) => {
-		console.log('data: ', data);
-		io.emit('new-message', data);
-	});
+  socket.on('message', (data) => {
+    console.log('data: ', data);
+    io.emit('new-message', data);
+  });
 
-	socket.on('disconnect', () => {
-		console.log('disconnected');
-	});
+  socket.on('disconnect', () => {
+    console.log('disconnected');
+  });
 });
 
 module.exports = app;

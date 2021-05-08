@@ -3,21 +3,21 @@ import AuthService from './auth-service';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
-  state = { nickname: '', password: '' };
+  state = { username: '', password: '' };
 
   service = new AuthService();
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    const nickname = this.state.nickname;
+    const username = this.state.username;
     const password = this.state.password;
     console.log('Event being handled!');
     this.service
-      .login(nickname, password)
+      .login(username, password)
       .then((response) => {
         console.log(response);
         this.setState({
-          nickname: response.nickname,
+          username: response.username,
           password: response.password,
         });
         this.props.getUser(response);
@@ -35,11 +35,11 @@ class Login extends Component {
       <div>
         <form onSubmit={this.handleFormSubmit}>
           <label>
-            Nickname:
+            username:
             <input
               type="text"
-              name="nickname"
-              value={this.state.nickname}
+              name="username"
+              value={this.state.username}
               onChange={(e) => this.handleChange(e)}
             />
           </label>
