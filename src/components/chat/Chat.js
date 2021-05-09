@@ -133,7 +133,7 @@ class Chat extends React.Component {
         <h2>
           <span>{msg.message}</span>
         </h2>
-        {msg.translated_message ? (
+        {msg.translated_message !== msg.message ? (
           <h2>
             <span>{msg.translated_message}</span>
           </h2>
