@@ -10,7 +10,15 @@ class AuthService {
     this.service = service;
   }
 
-  signup = (username, email, birthDate, gender, language, password) => {
+  signup = (
+    username,
+    email,
+    birthDate,
+    gender,
+    language,
+    password,
+    pictureUrl
+  ) => {
     return this.service
       .post('/signup', {
         username,
@@ -19,6 +27,7 @@ class AuthService {
         gender,
         language,
         password,
+        pictureUrl,
       })
       .then((response) => response.data);
   };
@@ -42,6 +51,16 @@ class AuthService {
       .post('/logout', {})
       .then((response) => response.data);
     return loggedOutUser;
+  };
+
+  handleUpload = async (file) => {
+    const uploadFile = await this.service
+      .post('/upload', file)
+      .then((res) => res.data)
+      .catch((err) => {
+        throw err;
+      });
+    return uploadFile;
   };
 }
 

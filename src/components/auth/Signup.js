@@ -6,12 +6,30 @@ class Signup extends Component {
   state = {
     username: '',
     password: '',
-    birthDate: new Date(),
+    birthDate: '',
     gender: '',
     language: 'en',
+    imageUrl: '',
   };
 
   service = new AuthService();
+
+  handleFileUpload = async (e) => {
+    console.log('The file to be uploaded is: ', e.target.files[0]);
+
+    const uploadData = new FormData();
+    await uploadData.append('imageUrl', e.target.files[0]);
+
+    this.service
+      .handleUpload(uploadData)
+      .then((response) => {
+        console.log('Success! Image has been handled!');
+        this.setState({ imageUrl: response.secure_url });
+      })
+      .catch((err) => {
+        console.log('Error while uploading the file: ', err);
+      });
+  };
 
   handleFormSubmit = (event) => {
     event.preventDefault();
@@ -21,9 +39,10 @@ class Signup extends Component {
     const gender = this.state.gender;
     const language = this.state.language;
     const password = this.state.password;
+    const imageUrl = this.state.imageUrl;
 
     this.service
-      .signup(username, email, birthDate, gender, language, password)
+      .signup(username, email, birthDate, gender, language, password, imageUrl)
       .then((response) => {
         this.setState({
           username: '',
@@ -32,6 +51,7 @@ class Signup extends Component {
           gender: '',
           language: 'en',
           password: '',
+          imageUrl: '',
         });
         this.props.getUser(response);
       })
@@ -114,6 +134,7 @@ class Signup extends Component {
               onChange={(e) => this.handleChange(e)}
             />
           </label>
+          <input type="file" onChange={(e) => this.handleFileUpload(e)} />
 
           <button type="submit" className="action-button">
             Signup
