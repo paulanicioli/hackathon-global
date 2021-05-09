@@ -133,9 +133,13 @@ class Chat extends React.Component {
         <h2>
           <span>{msg.message}</span>
         </h2>
-        <h2>
-          <span>{msg.translated_message}</span>
-        </h2>
+        {msg.translated_message ? (
+          <h2>
+            <span>{msg.translated_message}</span>
+          </h2>
+        ) : (
+          <> </>
+        )}
       </div>
     ));
   }
@@ -179,6 +183,7 @@ class Chat extends React.Component {
             name="message"
             onChange={(event) => this.onTextChange(event)}
             value={this.state.message}
+            autocomplete="off"
           />
           <button onClick={this.onMessageSubmit} className="sendBtn">
             Send
