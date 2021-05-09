@@ -69,18 +69,21 @@ class Chat extends React.Component {
 
   changeHandler = async (language) => {
     let { chat } = this.state;
-    const translatedChat = await chat.map(async (message) => {
-      message.translated_message = await getPromise(
-        apiKey,
-        language,
-        message.message
-      ).then((promise) => {
-        return promise.data.data.translations[0].translatedText;
-      });
-      return message;
+    let msgArr = chat.map((msg) => msg.message);
+    let responses = await Promise.all(
+      msgArr.map((msg) => getPromise(apiKey, language, msg))
+    );
+
+    let data = responses.map((promise, index) => {
+      let obj = {
+        message: chat[index].message,
+        username: chat[index].username,
+        translated_message: promise.data.data.translations[0].translatedText,
+      };
+      return obj;
     });
 
-    this.setState({ chat: translatedChat });
+    this.setState({ chat: data });
   };
 
   onTextChange = (event) => {
@@ -128,15 +131,6 @@ class Chat extends React.Component {
       </div>
     ));
   }
-
-  // uploadInDB () {
-  //   this.service
-  //     .createNewMessage({content: this., language, user})
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  // }
-
   // LANGUAGE PICKER OPTIONS
 
   languageOptions() {
