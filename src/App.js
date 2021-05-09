@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Navbar from './components/navbar/Navbar';
+import NavBarCustom from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
 import './components/auth/Signup.css';
+import './components/navbar/Navbar.css';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/auth-service';
 
 import Chat from './components/chat/Chat.js';
 import { Switch, Route } from 'react-router-dom';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
   state = { loggedInUser: null };
@@ -43,11 +46,15 @@ class App extends Component {
     if (this.state.loggedInUser) {
       return (
         <div className="App">
-          <Navbar userInSession={this.state.loggedInUser} />
+          <NavBarCustom userInSession={this.state.loggedInUser} />
           <Switch>
             <Route
               exact
               path="/chat"
+              component={() => <Chat userInSession={this.state.loggedInUser} />}
+            />
+            <Route
+              path="/"
               component={() => <Chat userInSession={this.state.loggedInUser} />}
             />
           </Switch>
@@ -56,7 +63,7 @@ class App extends Component {
     } else {
       return (
         <div className="App">
-          <Navbar userInSession={this.state.loggedInUser} />
+          <NavBarCustom userInSession={this.state.loggedInUser} />
           <Switch>
             <Route
               exact

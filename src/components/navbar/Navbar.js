@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AuthService from '../auth/auth-service';
 
-class Navbar extends Component {
+import { Navbar, Nav, NavDropdown, Image } from 'react-bootstrap';
+
+class NavBarCustom extends Component {
   state = { loggedInUser: null };
 
   service = new AuthService();
@@ -20,41 +22,69 @@ class Navbar extends Component {
   render() {
     if (this.state.loggedInUser) {
       return (
-        <nav className="nav-style">
-          <ul>
-            <li>Welcome, {this.state.loggedInUser.username}</li>
-            <li>
-              <Link to="/chat" style={{ textDecoration: 'none' }}>
+        <Navbar sticky="top" bg="primary" variant="dark" expand="lg">
+          <Navbar.Brand className="website-brand" href="/">
+            IronChat
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse
+            id="basic-navbar-nav"
+            className="justify-content-end"
+          >
+            <Nav className="d-flex align-items-center me-5">
+              <Navbar.Text className="nav-content-spacing">
+                Welcome, {this.props.userInSession.username}{' '}
+              </Navbar.Text>
+              <Link
+                to="/chat"
+                className="nav-content-spacing"
+                style={{ textDecoration: 'none', color: '#f7f7f7' }}
+              >
                 Chat
               </Link>
-            </li>
-            <li>
-              <Link to="/">
-                <button onClick={() => this.logoutUser()}>Logout</button>
-              </Link>
-            </li>
-          </ul>
-        </nav>
+              <Image
+                className="nav-avatar"
+                src={this.props.userInSession.pictureUrl}
+                alt={this.props.userInSession.username}
+                roundedCircle
+              />
+              <NavDropdown title="Settings" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/profile/{this.props.userInSession._id}">
+                  See my profile
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="/" onClick={() => this.logoutUser()}>
+                  Log out
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       );
     } else {
       return (
-        <nav className="nav-style">
-          <ul>
-            <li>
-              <Link to="/" style={{ textDecoration: 'none' }}>
+        <Navbar sticky="top" bg="primary" variant="dark" expand="lg">
+          <Navbar.Brand className="website-brand" href="/">
+            IronChat
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse
+            id="basic-navbar-nav"
+            className="justify-content-end"
+          >
+            <Nav className="d-flex align-items-center me-5">
+              <Nav.Link href="/" className="nav-content-spacing">
                 Login
-              </Link>
-            </li>
-            <li>
-              <Link to="/signup" style={{ textDecoration: 'none' }}>
+              </Nav.Link>
+              <Nav.Link href="/signup" className="nav-content-spacing">
                 Signup
-              </Link>
-            </li>
-          </ul>
-        </nav>
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       );
     }
   }
 }
 
-export default Navbar;
+export default NavBarCustom;
