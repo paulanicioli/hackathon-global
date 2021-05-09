@@ -4,7 +4,7 @@ require('dotenv').config();
 class AuthService {
   constructor() {
     let service = axios.create({
-      baseURL: `ironchat-server.herokuapp.com/api`,
+      baseURL: `http://localhost:${process.env.REACT_APP_BACK_PORT}/api`,
       withCredentials: true,
     });
     this.service = service;

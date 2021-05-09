@@ -1,19 +1,32 @@
+// eslint-disable-next-line no-unused-vars
 import React, { Component } from 'react';
+import axios from 'axios';
 import './Chat.css';
 import socketIOClient from 'socket.io-client';
 import AuthService from './chat-service';
 
+const apiKey = 'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw';
+const googleTranslate = require('google-translate')(
+	'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw'
+);
+
 const socket = socketIOClient('http://localhost:5000');
 
+function getPromise(key, lang, text) {
+	return axios.get(
+		`https://translation.googleapis.com/language/translate/v2?key=${key}&target=${lang}&q=${text}`
+	);
+}
 class Chat extends React.Component {
-  constructor() {
-    super();
+	constructor() {
+		super();
     this.service = new AuthService();
-    this.state = {
-      message: '',
-      chat: []
-    };
-  }
+		this.state = { 
+      message: '', 
+      chat: [], 
+      languageCodes: [], 
+      language: 'en' };
+	}
 
   loadMessages = async () => {
     try {
@@ -26,17 +39,44 @@ class Chat extends React.Component {
   
     catch(err) {
       console.log(err)
-    }
-      
-    }
-
-  componentDidMount() {
-    socket.on('new-message', (message) => {
-      this.setState({
-        chat: [message, ...this.state.chat],
-      });
-    });
+    }        
   }
+
+	componentDidMount() {
+		socket.on('new-message', (message) => {
+			getPromise(apiKey, this.state.language, message.message).then((promise) =>
+				this.setState({
+					chat: [
+						{ message: promise.data.data.translations[0].translatedText },
+						...this.state.chat,
+					],
+				})
+			);
+		});
+
+		const getLanguageCodes = (languageCodes) => {
+			this.setState({ languageCodes });
+		};
+
+		googleTranslate.getSupportedLanguages('en', function (err, languageCodes) {
+			getLanguageCodes(languageCodes); // use a callback function to setState
+		});
+	}
+
+	changeHandler = async (language) => {
+		let { chat } = this.state;
+		let msgArr = chat.map((msg) => msg.message);
+		let responses = await Promise.all(
+			msgArr.map((msg) => getPromise(apiKey, language, msg))
+		);
+
+		let data = responses.map((promise) => {
+			let obj = { message: promise.data.data.translations[0].translatedText };
+			return obj;
+		});
+
+		this.setState({ chat: data });
+	};
 
   onTextChange = (event) => {
     this.setState({
@@ -82,21 +122,52 @@ class Chat extends React.Component {
   //     })
   // }
 
-  render() {
-    return (
-      <div>
-        <span>Message</span>
-        <input
-          name="message"
-          onChange={(event) => this.onTextChange(event)}
-          value={this.state.message}
-        />
+	// LANGUAGE PICKER OPTIONS
+
+	languageOptions() {
+		const { languageCodes, language } = this.state;
+
+		return (
+			<div>
+				{this.renderChat()}
+				<select
+					className="select-language"
+					value={language}
+					onChange={(e) => {
+						this.changeHandler(e.target.value);
+						this.setState({ language: e.target.value });
+					}}
+				>
+					{languageCodes ? (
+						languageCodes.map((lang) => (
+							<option key={lang.language} value={lang.language}>
+								{lang.name}
+							</option>
+						))
+					) : (
+						<></>
+					)}
+				</select>
         <button onClick={this.loadMessages}>See previous messages</button>
-        <button onClick={this.onMessageSubmit}>Send</button>
-        <div>{this.renderChat()}</div>
-      </div>
-    );
-  }
+			</div>
+		);
+	}
+
+	render() {
+		return (
+			<div>
+				<span>Message</span>
+				<input
+					name="message"
+					onChange={(event) => this.onTextChange(event)}
+					value={this.state.message}
+				/>
+				<button onClick={this.onMessageSubmit}>Send</button>
+				{/* <div>{this.renderChat()}</div> */}
+				{this.languageOptions()}
+			</div>
+		);
+	}
 }
 
 export default Chat;

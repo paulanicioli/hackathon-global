@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'ironchat-server.herokuapp.com',
+    origin: 'http://localhost:' + process.env.FRONT_PORT,
   },
 });
 
