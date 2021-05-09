@@ -23,8 +23,11 @@ class AuthService {
       .then((response) => response.data);
   };
 
-  loggedin = () => {
-    return this.service.get('/loggedin').then((response) => response.data);
+  loggedin = async () => {
+    const reponse = await this.service
+      .get('/loggedin')
+      .then((response) => response.data);
+    return response;
   };
 
   login = async (username, password) => {

@@ -46,7 +46,12 @@ class Chat extends React.Component {
       getPromise(apiKey, this.state.language, message.message).then((promise) =>
         this.setState({
           chat: [
-            { message: promise.data.data.translations[0].translatedText },
+            {
+              message: promise.data.data.translations[0].translatedText,
+              username: this.props.userSession
+                ? this.props.userSession.username
+                : 'anonnymous',
+            },
             ...this.state.chat,
           ],
         })
@@ -107,6 +112,9 @@ class Chat extends React.Component {
     const { chat } = this.state;
     return chat.map((msg, id) => (
       <div key={id}>
+        <h2>
+          <span>{msg.username}</span>
+        </h2>
         <h2>
           <span>{msg.message}</span>
         </h2>
