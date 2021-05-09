@@ -10,8 +10,8 @@ const { Server } = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 
-const User = require('../models/User');
-const Message = require('../models/Message');
+const User = require('./models/User');
+const Message = require('./models/Message');
 
 const io = new Server(server, {
   cors: {
@@ -22,8 +22,8 @@ const io = new Server(server, {
 const session = require('express-session');
 const passport = require('passport');
 
-require('../configs/passport.config');
-require('../configs/mongodb.config');
+require('./configs/passport.config');
+require('./configs/mongodb.config');
 
 // Middleware Setup
 app.use(cors());
@@ -47,10 +47,10 @@ app.use(passport.session());
 
 // ROUTES MIDDLEWARE:
 
-const authRoutes = require('../routes/auth.routes');
+const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
 
-const messageRoutes = require('../routes/messages.routes');
+const messageRoutes = require('./routes/messages.routes');
 app.use('/api/messages', messageRoutes);
 
 server.listen(process.env.PORT, () => {
