@@ -22,10 +22,7 @@ class Navbar extends Component {
       return (
         <nav className="nav-style">
           <ul>
-            <li>
-              Welcome, {this.state.loggedInUser.username}{' '}
-              {this.state.loggedInUser._id}
-            </li>
+            <li>Welcome, {this.state.loggedInUser.username}</li>
             <li>
               <Link to="/chat" style={{ textDecoration: 'none' }}>
                 Chat

@@ -80,7 +80,7 @@ class Chat extends React.Component {
       let obj = {
         message: chat[index].message,
         username: chat[index].username,
-        timstamp: chat[index].timestamp,
+        timestamp: chat[index].timestamp,
         translated_message: promise.data.data.translations[0].translatedText,
       };
       return obj;
@@ -122,7 +122,7 @@ class Chat extends React.Component {
   renderChat() {
     const { chat } = this.state;
     return chat.map((msg, id) => (
-      <div key={id}>
+      <div className="msg" key={id}>
         <h2>
           <span>{new Date(msg.timestamp).toLocaleTimeString()}</span>
         </h2>
@@ -172,16 +172,20 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <div>
-        <span>Message</span>
-        <input
-          name="message"
-          onChange={(event) => this.onTextChange(event)}
-          value={this.state.message}
-        />
-        <button onClick={this.onMessageSubmit}>Send</button>
-        {/* <div>{this.renderChat()}</div> */}
-        {this.languageOptions()}
+      <div className="bar">
+        <div className="newMsg">
+          <input
+            className="messageBar"
+            name="message"
+            onChange={(event) => this.onTextChange(event)}
+            value={this.state.message}
+          />
+          <button onClick={this.onMessageSubmit} className="sendBtn">
+            Send
+          </button>
+          {/* <div>{this.renderChat()}</div> */}
+        </div>
+        <div>{this.languageOptions()}</div>
       </div>
     );
   }
