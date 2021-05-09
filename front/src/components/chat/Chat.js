@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './Chat.css';
 import socketIOClient from 'socket.io-client';
+import AuthService from './chat-service';
 
 const apiKey = 'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw';
 const googleTranslate = require('google-translate')(
@@ -57,33 +58,48 @@ class Chat extends React.Component {
 		this.setState({ chat: data });
 	};
 
-	onTextChange = (event) => {
-		this.setState({
-			message: event.target.value,
-		});
-	};
+  onTextChange = (event) => {
+    this.setState({
+      message: event.target.value,
+    });
+  };
 
-	onMessageSubmit = () => {
-		// const message = this.state;
-		socket.emit('message', {
-			message: this.state.message,
-		});
-		this.setState({
-			message: '',
-		});
-	};
+  onMessageSubmit = () => {
+    // const message = this.state;
+    socket.emit('message', {
+      message: this.state.message,
+    });
+    this.service
+      .createNewMessage(
+        this.state.message,
+        this.props.userInSession.language,
+        this.props.userInSession._id
+      )
+      .then((response) => {
+        this.setState({
+          message: '',
+        });
+      });
+  };
 
-	renderChat() {
-		const { chat } = this.state;
+  renderChat() {
+    const { chat } = this.state;
+    return chat.map((msg, id) => (
+      <div key={id}>
+        <h2>
+          <span>{msg.message}</span>
+        </h2>
+      </div>
+    ));
+  }
 
-		return chat.map((msg, id) => (
-			<div key={id}>
-				<h2>
-					<span>{msg.message}</span>
-				</h2>
-			</div>
-		));
-	}
+  // uploadInDB () {
+  //   this.service
+  //     .createNewMessage({content: this., language, user})
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  // }
 
 	// LANGUAGE PICKER OPTIONS
 

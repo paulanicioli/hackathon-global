@@ -2,14 +2,18 @@ const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
   {
-    nickname: {
+    username: {
       type: String,
-      required: [true, 'Please provide a nickname.'],
+      required: [true, 'Please provide a username.'],
       unique: true,
-      minlength: [3, 'Your nickname must have three characters or more'],
-      maxlength: [30, 'Your nickname cannot have more than 30 characters.'],
+      minlength: [3, 'Your username must have three characters or more'],
+      maxlength: [30, 'Your username cannot have more than 30 characters.'],
     },
-    email: { type: String, required: [true, 'Please provide a valid email.'], unique: true },
+    email: {
+      type: String,
+      required: [true, 'Please provide a valid email.'],
+      unique: true,
+    },
     password: { type: String, required: true, min: 8 },
     birthDate: { type: Date },
     profilePicture: {

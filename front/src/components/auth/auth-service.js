@@ -1,18 +1,19 @@
 import axios from 'axios';
+require('dotenv').config();
 
 class AuthService {
   constructor() {
     let service = axios.create({
-      baseURL: 'http://localhost:5000/api',
+      baseURL: `http://localhost:${process.env.REACT_APP_BACK_PORT}/api`,
       withCredentials: true,
     });
     this.service = service;
   }
 
-  signup = (nickname, email, birthDate, gender, language, password) => {
+  signup = (username, email, birthDate, gender, language, password) => {
     return this.service
       .post('/signup', {
-        nickname,
+        username,
         email,
         birthDate,
         gender,
@@ -26,15 +27,18 @@ class AuthService {
     return this.service.get('/loggedin').then((response) => response.data);
   };
 
-  login = (nickname, password) => {
-    console.log('nickname ===>', nickname, 'password ===>', password);
-    return this.service
-      .post('/login', { nickname: nickname, password: password })
+  login = async (username, password) => {
+    const loggedUser = await this.service
+      .post('/login', { username: username, password: password })
       .then((response) => response.data);
+    return loggedUser;
   };
 
-  logout = () => {
-    return this.service.post('/logout', {}).then((response) => response.data);
+  logout = async () => {
+    const loggedOutUser = await this.service
+      .post('/logout', {})
+      .then((response) => response.data);
+    return loggedOutUser;
   };
 }
 

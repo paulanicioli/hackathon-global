@@ -45,7 +45,11 @@ class App extends Component {
         <div className="App">
           <Navbar userInSession={this.state.loggedInUser} />
           <Switch>
-            <Route exact path="/Chat" component={Chat} />
+            <Route
+              exact
+              path="/chat"
+              component={() => <Chat userInSession={this.state.loggedInUser} />}
+            />
           </Switch>
         </div>
       );
@@ -60,7 +64,11 @@ class App extends Component {
                 path="/signup"
                 render={() => <Signup getUser={this.getTheUser} />}
               />
-              <Route exact path="/" render={() => <Login getUser={this.getTheUser} />} />
+              <Route
+                exact
+                path="/"
+                render={() => <Login getUser={this.getTheUser} />}
+              />
             </Switch>
             <Route exact path="/Chat" component={Chat} />
           </Router>

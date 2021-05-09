@@ -11,10 +11,9 @@ class Navbar extends Component {
     this.setState({ ...this.state, loggedInUser: nextProps['userInSession'] });
   }
 
-  logoutUser = () => {
-    this.service.logout().then(() => {
+  logoutUser = async () => {
+    await this.service.logout().then(() => {
       this.setState({ loggedInUser: null });
-      // this.props.getUser(null);
     });
   };
 
@@ -23,10 +22,13 @@ class Navbar extends Component {
       return (
         <nav className="nav-style">
           <ul>
-            <li>Welcome, {this.state.loggedInUser.username}</li>
             <li>
-              <Link to="/projects" style={{ textDecoration: 'none' }}>
-                Projects
+              Welcome, {this.state.loggedInUser.username}{' '}
+              {this.state.loggedInUser._id}
+            </li>
+            <li>
+              <Link to="/chat" style={{ textDecoration: 'none' }}>
+                Chat
               </Link>
             </li>
             <li>
