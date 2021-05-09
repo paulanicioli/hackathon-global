@@ -124,7 +124,7 @@ class Chat extends React.Component {
     return chat.map((msg, id) => (
       <div key={id}>
         <h2>
-          <span>{msg.timestamp.toLocaleTimeString()}</span>
+          <span>{new Date(msg.timestamp).toLocateTimeString()}</span>
         </h2>
         <br />
         <h2>
