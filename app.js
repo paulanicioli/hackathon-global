@@ -58,6 +58,8 @@ app.use('/api', authRoutes);
 const messageRoutes = require('./routes/messages.routes');
 app.use('/api/messages', messageRoutes);
 
+app.use('/api', require('./routes/file-upload.routes'));
+
 server.listen(process.env.PORT, () => {
   console.log('Listening on port' + ' ' + process.env.PORT);
 });

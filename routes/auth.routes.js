@@ -14,7 +14,7 @@ authRoutes.post('/signup', (req, res, next) => {
   if (!username || !password || !email) {
     return res
       .status(400)
-      .json({ message: 'Provide username, email and password' });
+      .json({ errorMessage: 'Provide username, email and password' });
   }
 
   // make sure passwords are strong:
