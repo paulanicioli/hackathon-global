@@ -51,6 +51,7 @@ class Chat extends React.Component {
                 promise.data.data.translations[0].translatedText,
               message: message.message,
               username: message.username,
+              timestamp: message.timestamp,
             },
             ...this.state.chat,
           ],
@@ -78,6 +79,7 @@ class Chat extends React.Component {
       let obj = {
         message: chat[index].message,
         username: chat[index].username,
+        timstamp: chat[index].timestamp,
         translated_message: promise.data.data.translations[0].translatedText,
       };
       return obj;
@@ -99,6 +101,7 @@ class Chat extends React.Component {
       username: this.props.userInSession
         ? this.props.userInSession.username
         : 'anonnymous',
+      timestamp: new Date(),
     });
     let messageLanguage = '';
     let user = '';
@@ -119,6 +122,10 @@ class Chat extends React.Component {
     const { chat } = this.state;
     return chat.map((msg, id) => (
       <div key={id}>
+        <h2>
+          <span>{msg.timestamp}</span>
+        </h2>
+        <br />
         <h2>
           <span>{msg.username}</span>
         </h2>
