@@ -61,9 +61,9 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
 	console.log('new connection');
 	//this is an object of the socket connection
-	// console.log('socket id: ', socket.id);
 
 	socket.on('message', (data) => {
+		console.log('socket id: ', socket);
 		console.log('data: ', data);
 		io.emit('new-message', data);
 	});
