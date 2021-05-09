@@ -57,21 +57,19 @@ class App extends Component {
       return (
         <div className="App">
           <Navbar userInSession={this.state.loggedInUser} />
-          <Router>
-            <Switch>
-              <Route
-                exact
-                path="/signup"
-                render={() => <Signup getUser={this.getTheUser} />}
-              />
-              <Route
-                exact
-                path="/"
-                render={() => <Login getUser={this.getTheUser} />}
-              />
-            </Switch>
-            <Route exact path="/Chat" component={Chat} />
-          </Router>
+          <Switch>
+            <Route
+              exact
+              path="/signup"
+              render={() => <Signup getUser={this.getTheUser} />}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => <Login getUser={this.getTheUser} />}
+            />
+          </Switch>
+          <Route exact path="/Chat" component={Chat} />
         </div>
       );
     }
