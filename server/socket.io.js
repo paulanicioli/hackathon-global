@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:' + process.env.FRONT_PORT,
+    origin: process.env.FRONT_ADDRESS,
   },
 });
 
@@ -26,7 +26,7 @@ require('./configs/mongodb.config');
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:' + process.env.FRONT_PORT,
+    origin: process.env.FRONT_ADDRESS,
   })
 );
 app.use(express.json());

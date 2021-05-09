@@ -10,7 +10,7 @@ const googleTranslate = require('google-translate')(
 	'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw'
 );
 
-const socket = socketIOClient('http://localhost:5000');
+const socket = socketIOClient(process.env.REACT_APP_BACK_ADDRESS);
 
 function getPromise(key, lang, text) {
 	return axios.get(
@@ -104,7 +104,6 @@ class Chat extends React.Component {
 
   renderChat() {
     const { chat } = this.state;
-    console.log(chat)
     return chat.map((msg, id) => (
       <div key={id}>
         <h2>

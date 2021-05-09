@@ -10,7 +10,11 @@ const SALT_ROUNDS = 10;
 const User = require('../models/User');
 
 authRoutes.post('/signup', (req, res, next) => {
+  console.log('post call on signup')
+
+
   const { username, email, birthDate, gender, language, password } = req.body;
+
   if (!username || !password || !email) {
     return res
       .status(400)
@@ -43,6 +47,8 @@ authRoutes.post('/signup', (req, res, next) => {
     newUser.birthDate = birthDate;
   }
 
+  console.log(newUser)
+
   bcryptjs
     .genSalt(SALT_ROUNDS)
     .then((salt) => bcryptjs.hash(password, salt))
@@ -51,6 +57,7 @@ authRoutes.post('/signup', (req, res, next) => {
       return User.create(newUser);
     })
     .then((userFromDB) => {
+      console.log(userFromDB)
       console.log('Newly created user is: ', userFromDB);
       res.status(200).json(userFromDB);
     })
@@ -62,7 +69,7 @@ authRoutes.post('/signup', (req, res, next) => {
         console.log('error ==> ', error);
         res.status(500).json({
           errorMessage:
-            'Username and email need to be unique. Either username or email is already used.',
+            'Username and email need to be unique. Either username or email is already being used.',
         });
       } else {
         console.log('error ==> ', error);
