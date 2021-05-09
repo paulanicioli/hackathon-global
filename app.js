@@ -15,7 +15,7 @@ const Message = require('./models/Message');
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://ironchat.herokuapp.com',
+    origin: FRONTEND_URL,
   },
 });
 
