@@ -47,10 +47,10 @@ class Chat extends React.Component {
         this.setState({
           chat: [
             {
-              message: promise.data.data.translations[0].translatedText,
-              username: this.props.userSession
-                ? this.props.userSession.username
-                : 'anonnymous',
+              translated_message:
+                promise.data.data.translations[0].translatedText,
+              message: message.message,
+              username: message.username,
             },
             ...this.state.chat,
           ],
@@ -92,6 +92,9 @@ class Chat extends React.Component {
     // const message = this.state;
     socket.emit('message', {
       message: this.state.message,
+      username: this.props.userSession
+        ? this.props.userSession.username
+        : 'anonnymous',
     });
     let messageLanguage = '';
     let user = '';
@@ -117,6 +120,9 @@ class Chat extends React.Component {
         </h2>
         <h2>
           <span>{msg.message}</span>
+        </h2>
+        <h2>
+          <span>{msg.translated_message}</span>
         </h2>
       </div>
     ));

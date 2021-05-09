@@ -24,7 +24,7 @@ class AuthService {
   };
 
   loggedin = async () => {
-    const reponse = await this.service
+    const response = await this.service
       .get('/loggedin')
       .then((response) => response.data);
     return response;
