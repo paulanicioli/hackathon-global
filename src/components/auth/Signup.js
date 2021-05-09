@@ -9,6 +9,7 @@ class Signup extends Component {
     birthDate: new Date(),
     gender: '',
     language: 'en',
+    errorMessage: ''
   };
 
   service = new AuthService();
@@ -25,6 +26,14 @@ class Signup extends Component {
     this.service
       .signup(username, email, birthDate, gender, language, password)
       .then((response) => {
+        console.log('we got the response! => ', response)
+        if (response.errorMessage) {
+          return this.setState(
+             { errorMessage: response.errorMessage ? response.errorMessage : null }  
+          )
+
+        }
+        
         this.setState({
           username: '',
           email: '',
@@ -34,8 +43,9 @@ class Signup extends Component {
           password: '',
         });
         this.props.getUser(response);
+        console.log(response)
       })
-      .catch((error) => console.log('on react', error));
+      .catch((error) => console.error('on react',  error, Object.keys(error)));
   };
 
   handleChange = (event) => {
@@ -124,6 +134,11 @@ class Signup extends Component {
           Already have account?
           <Link to={'/'}> Login</Link>
         </p>
+        {
+          this.state.errorMessage ? 
+          <h3>{this.state.errorMessage}</h3>
+          : null
+        }
       </div>
     );
   }
