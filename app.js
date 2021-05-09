@@ -15,7 +15,7 @@ const Message = require('./models/Message');
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:' + process.env.FRONT_PORT,
+    origin: process.env.FRONTEND_URL,
   },
 });
 
