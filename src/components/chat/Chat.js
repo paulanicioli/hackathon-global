@@ -43,6 +43,7 @@ class Chat extends React.Component {
 
   componentDidMount() {
     socket.on('new-message', (message) => {
+      console.log(message, typeof message.timestamp);
       getPromise(apiKey, this.state.language, message.message).then((promise) =>
         this.setState({
           chat: [
