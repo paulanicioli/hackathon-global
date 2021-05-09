@@ -93,13 +93,13 @@ class Chat extends React.Component {
     // const message = this.state;
     socket.emit('message', {
       message: this.state.message,
-      username: this.props.userSession
-        ? this.props.userSession.username
+      username: this.props.userInSession
+        ? this.props.userInSession.username
         : 'anonnymous',
     });
     let messageLanguage = '';
     let user = '';
-    if (this.props && this.props.userSession) {
+    if (this.props && this.props.userInSession) {
       messageLanguage = this.props.userInSession.language;
       user = this.props.userInSession._id;
     }
