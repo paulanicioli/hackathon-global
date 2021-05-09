@@ -29,7 +29,8 @@ class AuthService {
         password,
         pictureUrl,
       })
-      .then((response) => response.data);
+      .then((response) => response.data)
+      .catch((err) => err.response.data);
   };
 
   loggedin = async () => {

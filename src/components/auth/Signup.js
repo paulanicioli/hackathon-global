@@ -9,6 +9,7 @@ class Signup extends Component {
     birthDate: '',
     gender: '',
     language: 'en',
+    errorMessage: '',
     imageUrl: '',
   };
 
@@ -44,6 +45,13 @@ class Signup extends Component {
     this.service
       .signup(username, email, birthDate, gender, language, password, imageUrl)
       .then((response) => {
+        console.log('we got the response! => ', response);
+        if (response.errorMessage) {
+          return this.setState({
+            errorMessage: response.errorMessage ? response.errorMessage : null,
+          });
+        }
+
         this.setState({
           username: '',
           email: '',
@@ -145,6 +153,7 @@ class Signup extends Component {
           Already have account?
           <Link to={'/'}> Login</Link>
         </p>
+        {this.state.errorMessage ? <h3>{this.state.errorMessage}</h3> : null}
       </div>
     );
   }
