@@ -45,7 +45,6 @@ class Signup extends Component {
     this.service
       .signup(username, email, birthDate, gender, language, password, imageUrl)
       .then((response) => {
-<<<<<<< HEAD
         console.log('we got the response! => ', response);
         if (response.errorMessage) {
           return this.setState({
@@ -53,15 +52,6 @@ class Signup extends Component {
           });
         }
 
-=======
-        console.log('we got the response! => ', response)
-        if (response.errorMessage) {
-          return this.setState(
-             { errorMessage: response.errorMessage ? response.errorMessage : null }  
-          )
-        }
-        
->>>>>>> b376cebe859713fda5b6a7340f8e8bc2845e116a
         this.setState({
           username: '',
           email: '',
@@ -73,7 +63,7 @@ class Signup extends Component {
         });
         this.props.getUser(response);
       })
-      .catch((error) => console.log('on react',  error));
+      .catch((error) => console.log('on react', error));
   };
 
   handleChange = (event) => {
@@ -163,15 +153,7 @@ class Signup extends Component {
           Already have account?
           <Link to={'/'}> Login</Link>
         </p>
-<<<<<<< HEAD
         {this.state.errorMessage ? <h3>{this.state.errorMessage}</h3> : null}
-=======
-        {
-          this.state.errorMessage ? 
-          <h3>{this.state.errorMessage}</h3>
-          : null
-        }
->>>>>>> b376cebe859713fda5b6a7340f8e8bc2845e116a
       </div>
     );
   }

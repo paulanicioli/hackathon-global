@@ -30,11 +30,7 @@ class AuthService {
         pictureUrl,
       })
       .then((response) => response.data)
-<<<<<<< HEAD
       .catch((err) => err.response.data);
-=======
-      .catch(err => err.response.data)
->>>>>>> b376cebe859713fda5b6a7340f8e8bc2845e116a
   };
 
   loggedin = async () => {
