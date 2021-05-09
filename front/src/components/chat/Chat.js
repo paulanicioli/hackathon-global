@@ -105,10 +105,10 @@ class Chat extends React.Component {
   renderChat() {
     const { chat } = this.state;
     return chat.map((msg, id) => (
-      <div key={id}>
-        <h2>
+      <div className="msg" key={id}>
+        <p>
           <span>{msg.message}</span>
-        </h2>
+        </p>
       </div>
     ));
   }
@@ -128,9 +128,9 @@ class Chat extends React.Component {
 
 		return (
 			<div>
-				{this.renderChat()}
+				<div className="language">
 				<select
-					className="select-language"
+					className="langSelect"
 					value={language}
 					onChange={(e) => {
 						this.changeHandler(e.target.value);
@@ -147,23 +147,30 @@ class Chat extends React.Component {
 						<></>
 					)}
 				</select>
-        <button onClick={this.loadMessages}>See previous messages</button>
+        <button onClick={this.loadMessages} className="sendBtn">See previous messages</button>
+		</div>
+						<div>{this.renderChat()}</div>
 			</div>
 		);
 	}
 
 	render() {
 		return (
-			<div>
-				<span>Message</span>
+			<div className="bar">
+				<div className="newMsg">
 				<input
+					className="messageBar"
 					name="message"
 					onChange={(event) => this.onTextChange(event)}
 					value={this.state.message}
 				/>
-				<button onClick={this.onMessageSubmit}>Send</button>
+				<button onClick={this.onMessageSubmit} className="sendBtn">Send</button>
 				{/* <div>{this.renderChat()}</div> */}
-				{this.languageOptions()}
+				</div>
+				<div>{this.languageOptions()}</div>
+				
+				
+				
 			</div>
 		);
 	}
