@@ -69,17 +69,16 @@ class Chat extends React.Component {
 
   changeHandler = async (language) => {
     let { chat } = this.state;
-    let msgArr = chat.map((msg) => msg.message);
-    let responses = await Promise.all(
-      msgArr.map((msg) => getPromise(apiKey, language, msg))
-    );
-
-    let data = responses.map((promise) => {
-      let obj = { message: promise.data.data.translations[0].translatedText };
-      return obj;
+    const translatedChat = chat.map(async (message) => {
+      message.translated_message = await getPromise(
+        apiKey,
+        language,
+        message.message
+      );
+      return message;
     });
 
-    this.setState({ chat: data });
+    this.setState({ chat: translatedChat });
   };
 
   onTextChange = (event) => {
