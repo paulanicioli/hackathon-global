@@ -13,14 +13,16 @@ authRoutes.post('/signup', (req, res, next) => {
   const { username, email, birthDate, gender, language, password } = req.body;
   if (!username || !password || !email) {
     return res
-      .status(400)
-      .json({ message: 'Provide username, email and password' });
+    .status(400)
+    .json({ errorMessage: 'You must provide username, email and password' })
   }
 
   // make sure passwords are strong:
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
-    return res.status(500).json({
+    return res
+      .status(500)
+      .json({
       errorMessage:
         'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.',
     });
