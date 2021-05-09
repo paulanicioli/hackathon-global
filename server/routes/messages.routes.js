@@ -40,22 +40,31 @@ messageRoutes.post('/new', (req, res, next) => {
 });
 
 messageRoutes.get('/all', async (req, res, next) => {
-  const messages = await Message.find({ group: null })
-    .then((messagesFromDB) => {
-      console.log(
-        `${messagesFromDB.length} messages were retrieved from the database.`
-      );
-      res.status(200).json(messagesFromDB);
-    })
-    .catch((error) => {
-      if (error instanceof mongoose.Error.ValidationError) {
-        console.log('error ==> ', error);
-        res.status(500).json({ errorMessage: error.message });
-      } else {
-        console.log('error ==> ', error);
-        next(error);
-      }
-    });
+  const group = req.body.group ? req.body.group : null;
+
+  const messages = await Message.find({ group })
+    .populate('creator')
+    .sort({ createdAt: -1})
+    .limit(50)
+      .then((messagesFromDB) => {
+        // console.log(
+        //   `${messagesFromDB.length} messages were retrieved from the database.`
+        // );
+        res.status(200).json(messagesFromDB);
+      })
+      .catch((error) => {
+        if (error instanceof mongoose.Error.ValidationError) {
+          console.log('error ==> ', error);
+          res.status(500).json({ errorMessage: error.message });
+        } else {
+          console.log('error ==> ', error);
+          next(error);
+        }
+      });
 });
+
+// message.get('/last', (req, res, next) => {
+
+// })
 
 module.exports = messageRoutes;

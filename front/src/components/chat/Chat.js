@@ -8,15 +8,32 @@ const socket = socketIOClient('http://localhost:5000');
 class Chat extends React.Component {
   constructor() {
     super();
-    this.state = { message: '', chat: [] };
+    this.service = new AuthService();
+    this.state = {
+      message: '',
+      chat: []
+    };
   }
 
-  service = new AuthService();
+  loadMessages = async () => {
+    try {
+      const messages = await this.service.getAllMessages();
+
+      this.setState({
+        chat: messages,
+      });
+    }
+  
+    catch(err) {
+      console.log(err)
+    }
+      
+    }
 
   componentDidMount() {
     socket.on('new-message', (message) => {
       this.setState({
-        chat: [...this.state.chat, message],
+        chat: [message, ...this.state.chat],
       });
     });
   }
@@ -47,6 +64,7 @@ class Chat extends React.Component {
 
   renderChat() {
     const { chat } = this.state;
+    console.log(chat)
     return chat.map((msg, id) => (
       <div key={id}>
         <h2>
@@ -73,6 +91,7 @@ class Chat extends React.Component {
           onChange={(event) => this.onTextChange(event)}
           value={this.state.message}
         />
+        <button onClick={this.loadMessages}>See previous messages</button>
         <button onClick={this.onMessageSubmit}>Send</button>
         <div>{this.renderChat()}</div>
       </div>
