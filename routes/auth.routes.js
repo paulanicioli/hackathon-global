@@ -10,7 +10,17 @@ const SALT_ROUNDS = 10;
 const User = require('../models/User');
 
 authRoutes.post('/signup', (req, res, next) => {
-  const { username, email, birthDate, gender, language, password } = req.body;
+  const {
+    username,
+    email,
+    birthDate,
+    gender,
+    language,
+    password,
+    pictureUrl,
+  } = req.body;
+
+  console.log('pictureUrl ===> ', pictureUrl);
   if (!username || !password || !email) {
     return res
       .status(400)
@@ -41,6 +51,10 @@ authRoutes.post('/signup', (req, res, next) => {
 
   if (birthDate) {
     newUser.birthDate = birthDate;
+  }
+
+  if (pictureUrl) {
+    newUser.pictureUrl = pictureUrl;
   }
 
   bcryptjs
