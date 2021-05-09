@@ -14,6 +14,11 @@ const userSchema = new Schema(
       required: [true, 'Please provide a valid email.'],
       unique: true,
     },
+    pictureUrl: {
+      type: String,
+      default:
+        'https://res.cloudinary.com/de4qbzjqh/image/upload/v1620587690/ironhack-hackathon/avatar_placeholer_yebnnp.png',
+    },
     password: { type: String, required: true, min: 8 },
     birthDate: { type: Date },
     profilePicture: {

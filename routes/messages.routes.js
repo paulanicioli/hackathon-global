@@ -8,14 +8,16 @@ const Message = require('../models/Message');
 
 messageRoutes.post('/new', (req, res, next) => {
   const { content, language, group, loggedInUser } = req.body;
-  if (!content || !loggedInUser) {
-    console.log('No content or logged in user ===>', content, loggedInUser);
-    return res.status(400).json({ message: 'Provide content and user' });
+  if (!content) {
+    console.log('No content!');
+    return res.status(400).json({ message: 'Provide content' });
   }
   const newMessage = {
     content,
-    creator: loggedInUser,
   };
+  if (loggedInUser) {
+    newMessage.creator = loggedInUser;
+  }
   if (language) {
     newMessage.language = language;
   }
