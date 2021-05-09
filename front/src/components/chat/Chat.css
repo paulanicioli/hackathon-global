@@ -1,0 +1,45 @@
+.messageBar {
+    width: 80vh;
+    border-radius: 10px;
+    height: 5vh;
+}
+
+.sendBtn {
+    margin-left: 1vh;
+    border-radius: 10px;
+    background-color: rgb(65, 85, 237);
+    color: white;
+    border: 1px solid rgb(65, 85, 237);
+}
+
+.newMsg {
+    display: flex;
+    align-content: flex-end;
+    justify-content: start;
+    
+    
+}
+
+.bar {
+    margin: 1vh 150vh 0 130vh;
+    
+}
+
+.language {
+    margin-top: 1vh;
+}
+
+.langSelect {
+    border-radius: 10px;
+    height: 3.5vh;
+    border: 2px solid black;
+}
+
+.msg {
+    border: 1px solid rgb(65, 85, 237);
+    margin: 2vh;
+    padding: 1vh;
+    background-color: rgb(65, 85, 237);
+    color: white;
+    border-radius: 10px;
+}
