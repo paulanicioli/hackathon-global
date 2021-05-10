@@ -4,10 +4,8 @@ import './Chat.css';
 import socketIOClient from 'socket.io-client';
 import AuthService from './chat-service';
 
-const apiKey = 'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw';
-const googleTranslate = require('google-translate')(
-  'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw'
-);
+const apiKey = process.env.REACT_APP_API_KEY;
+const googleTranslate = require('google-translate')(apiKey);
 
 const socket = socketIOClient(process.env.REACT_APP_BACK_ADDRESS);
 
@@ -129,6 +127,7 @@ class Chat extends Component {
     return chat.map((msg, id) => (
       <div
         className={
+          this.props.userInSession &&
           msg.username === this.props.userInSession.username
             ? 'chat-messagesR'
             : 'chat-messagesL'
@@ -137,6 +136,7 @@ class Chat extends Component {
         {/* {this.renderChat()} */}
         <div
           className={
+            this.props.userInSession &&
             msg.username === this.props.userInSession.username
               ? 'msg-boxR'
               : 'msg-boxL'
