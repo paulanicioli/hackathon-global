@@ -30,14 +30,14 @@ class AuthService {
         pictureUrl,
       })
       .then((response) => response.data)
-      .catch(err => err.response.data)
+      .catch((err) => err.response.data);
   };
 
   loggedin = async () => {
     const response = await this.service
       .get('/loggedin')
       .then((response) => response.data);
-    // return response;
+    return response;
   };
 
   login = async (username, password) => {

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Navbar from './components/navbar/Navbar';
+import NavBarCustom from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
+import Profile from './components/auth/Profile';
 import './components/auth/Signup.css';
+import './components/navbar/Navbar.css';
+import './components/auth/Profile.css';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/auth-service';
 
@@ -45,11 +48,22 @@ class App extends Component {
     if (this.state.loggedInUser) {
       return (
         <div className="App">
-          <Navbar userInSession={this.state.loggedInUser} />
+          <NavBarCustom userInSession={this.state.loggedInUser} />
           <Switch>
             <Route
               exact
               path="/chat"
+              component={() => <Chat userInSession={this.state.loggedInUser} />}
+            />
+            <Route
+              exact
+              path="/my-profile"
+              component={() => (
+                <Profile userInSession={this.state.loggedInUser} />
+              )}
+            />
+            <Route
+              path="/"
               component={() => <Chat userInSession={this.state.loggedInUser} />}
             />
           </Switch>
@@ -58,7 +72,7 @@ class App extends Component {
     } else {
       return (
         <div className="App">
-          <Navbar userInSession={this.state.loggedInUser} />
+          <NavBarCustom userInSession={this.state.loggedInUser} />
           <Switch>
             <Route
               exact
