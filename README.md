@@ -9,10 +9,10 @@ Please proceed to [IronChat](http://ironchat.herokuapp.com/) to use the app. We'
 
 ## Authors
 
-Pietro Ballarini
-Sullivan
-Aurelie
-Thais Bittencourt
-Paula Nicioli
-Dicky Com
-Jesper Bennett
+- Pietro Ballarini
+- Sullivan
+- Aurelie
+- Thais Bittencourt
+- Paula Nicioli
+- Dicky Com
+- Jesper Bennett
