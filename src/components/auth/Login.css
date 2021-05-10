@@ -1,3 +1,22 @@
+#login-outter-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  justify-content: center; 
+  max-width: 700px;
+  /* border: 1px solid green; */
+  color: white ;
+}
+
+#login-inner-container {
+  margin: 1rem 0;
+  /* border: 1px solid blue; */
+  padding: 30px 20px;
+  border-radius: 15px;
+  background-color: #2c78e9;
+}
+
+
 /* .sendBtn {
   margin-left: 1vh;
   padding: 0.6vh 1vh 0.6vh 1vh;

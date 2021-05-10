@@ -41,10 +41,23 @@ class AuthService {
   };
 
   login = async (username, password) => {
-    const loggedUser = await this.service
-      .post('/login', { username: username, password: password })
-      .then((response) => response.data);
-    return loggedUser;
+    try {
+      const loggedUser = await this.service
+        .post('/login', { username: username, password: password })
+
+        console.log(loggedUser)
+
+      
+      return loggedUser
+    }
+
+    catch(err) {
+      console.log('on route catch => ', err)
+      return err.response.data
+
+    }
+
+    // return loggedUser;
   };
 
   logout = async () => {
