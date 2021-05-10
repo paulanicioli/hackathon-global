@@ -201,20 +201,22 @@ class Chat extends Component {
         <div className="chat">{this.renderChat()}</div>
         <div className="chat-input">
           <div className="chat-language">{this.languageOptions()}</div>
-          <input
-            name="message"
-            type="textarea"
-            onChange={(event) => this.onTextChange(event)}
-            value={this.state.message}
-            autoComplete="off"
-          />
-          <button
-            type="submit"
-            onClick={this.onMessageSubmit}
-            className="sendBtn"
-          >
-            Send
-          </button>
+          <form>
+            <input
+              name="message"
+              type="textarea"
+              onChange={(event) => this.onTextChange(event)}
+              value={this.state.message}
+              autoComplete="off"
+            />
+            <button
+              type="submit"
+              onClick={this.onMessageSubmit}
+              className="sendBtn"
+            >
+              Send
+            </button>
+          </form>
         </div>
       </div>
     );
