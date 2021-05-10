@@ -10,6 +10,8 @@ import AuthService from './components/auth/auth-service';
 import Chat from './components/chat/Chat.js';
 import { Switch, Route } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 class App extends Component {
   state = { loggedInUser: null };
 

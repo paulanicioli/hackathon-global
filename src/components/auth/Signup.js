@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import AuthService from './auth-service';
 import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container'
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 class Signup extends Component {
   state = {
@@ -73,81 +80,118 @@ class Signup extends Component {
 
   render() {
     return (
-      <div>
-        <form className="signup-form" onSubmit={this.handleFormSubmit}>
-          <label>
-            username:
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={(e) => this.handleChange(e)}
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={this.state.email}
-              onChange={(e) => this.handleChange(e)}
-            />
-          </label>
-          <label>
-            Birth date:
-            <input
-              type="date"
-              name="birthDate"
-              value={this.state.birthDate}
-              onChange={(e) => this.handleChange(e)}
-            />
-          </label>
-          <label>
-            Gender:
-            <select
-              type="text"
-              name="gender"
-              value={this.state.gender}
-              onChange={(e) => this.handleChange(e)}
-            >
-              <option value="">Choose your gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="non-binary">Non-binary</option>
-            </select>
-          </label>
-          <label>
-            Language:
-            <select
-              type="text"
-              name="language"
-              value={this.state.language}
-              onChange={(e) => this.handleChange(e)}
-            >
-              <option selected value="en">
-                English
-              </option>
-              <option value="es">Español</option>
-              <option value="pt">Português</option>
-              <option value="de">Deutsch</option>
-              <option value="fr">Français</option>
-            </select>
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={(e) => this.handleChange(e)}
-            />
-          </label>
-          <input type="file" onChange={(e) => this.handleFileUpload(e)} />
+      <Container id="form-container">
+        <Form id="signup-form" onSubmit={this.handleFormSubmit}>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Username
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                  type="text"
+                  name="username"
+                  value={this.state.username}
+                  onChange={(e) => this.handleChange(e)}
+                />
+            </Col>            
+          </Form.Group>
 
-          <button type="submit" className="action-button">
-            Signup
-          </button>
-        </form>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Email:
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                type="email"
+                name="email"
+                value={this.state.email}
+                onChange={(e) => this.handleChange(e)}
+              />
+            </Col>
+          </Form.Group>
+          
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Birth date:
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                type="date"
+                name="birthDate"
+                value={this.state.birthDate}
+                onChange={(e) => this.handleChange(e)}
+              />
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Gender:
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                as="select"
+                name="gender"
+                value={this.state.gender}
+                onChange={(e) => this.handleChange(e)}
+              >
+                  <option value="">Choose your gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="non-binary">Non-binary</option>
+              </Form.Control>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Language:
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                as="select"
+                name="language"
+                value={this.state.language}
+                onChange={(e) => this.handleChange(e)}
+              >
+                  <option selected value="en">
+                    English
+                  </option>
+                  <option value="es">Español</option>
+                  <option value="pt">Português</option>
+                  <option value="de">Deutsch</option>
+                  <option value="fr">Français</option>
+              </Form.Control>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Password:
+            </Form.Label>
+            <Col sm={10}>
+              <input
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={(e) => this.handleChange(e)}
+              />
+            </Col>
+          </Form.Group>
+
+
+          <Form.Group>
+            <input type="file" onChange={(e) => this.handleFileUpload(e)} />
+          </Form.Group>
+
+          <Form.Group>
+
+          </Form.Group>
+            <button type="submit" className="action-button">
+              Signup
+            </button>
+
+        </Form>
 
         <p>
           Already have account?
@@ -158,7 +202,7 @@ class Signup extends Component {
           <h3>{this.state.errorMessage}</h3>
           : null
         }
-      </div>
+      </Container>
     );
   }
 }
