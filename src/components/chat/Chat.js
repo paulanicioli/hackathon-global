@@ -201,7 +201,7 @@ class Chat extends Component {
         <div className="chat">{this.renderChat()}</div>
         <div className="chat-input">
           <div className="chat-language">{this.languageOptions()}</div>
-          <form>
+          <form onSubmit={(e) => e.preventDefault()}>
             <input
               name="message"
               type="textarea"
