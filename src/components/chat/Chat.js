@@ -172,26 +172,24 @@ class Chat extends Component {
     const { languageCodes, language } = this.state;
 
     return (
-      <div>
-        <select
-          className="select-language"
-          value={language}
-          onChange={(e) => {
-            this.changeHandler(e.target.value);
-            this.setState({ language: e.target.value });
-          }}
-        >
-          {languageCodes ? (
-            languageCodes.map((lang) => (
-              <option key={lang.language} value={lang.language}>
-                {lang.name}
-              </option>
-            ))
-          ) : (
-            <></>
-          )}
-        </select>
-      </div>
+      <select
+        className="select-language"
+        value={language}
+        onChange={(e) => {
+          this.changeHandler(e.target.value);
+          this.setState({ language: e.target.value });
+        }}
+      >
+        {languageCodes ? (
+          languageCodes.map((lang) => (
+            <option key={lang.language} value={lang.language}>
+              {lang.name}
+            </option>
+          ))
+        ) : (
+          <></>
+        )}
+      </select>
     );
   }
 
@@ -200,7 +198,10 @@ class Chat extends Component {
       <div className="chat-container">
         <div className="chat">{this.renderChat()}</div>
         <div className="chat-input">
-          <div className="chat-language">{this.languageOptions()}</div>
+          <div className="chat-language">
+            <h5>Translate messages to: </h5>
+            {this.languageOptions()}
+          </div>
           <form onSubmit={(e) => e.preventDefault()}>
             <input
               name="message"
