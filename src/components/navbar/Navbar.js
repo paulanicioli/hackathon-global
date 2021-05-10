@@ -49,7 +49,7 @@ class NavBarCustom extends Component {
                 roundedCircle
               />
               <NavDropdown title="Settings" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/my-profile">
+                <NavDropdown.Item className="disabled" href="/my-profile">
                   See my profile
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
