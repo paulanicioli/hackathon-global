@@ -78,7 +78,7 @@ authRoutes.post('/signup', (req, res, next) => {
         console.log('error ==> ', error);
         res.status(500).json({
           errorMessage:
-            'Username and email need to be unique. Either username or email is already used.',
+            'Username and email need to be unique. Either username or email is already being used.',
         });
       } else {
         console.log('error ==> ', error);
@@ -93,20 +93,20 @@ authRoutes.post('/login', async (req, res, next) => {
       console.log('Error 1 ===> ', err);
       res
         .status(500)
-        .json({ message: 'Something went wrong authenticating user' });
+        .json({ errorMessage: 'Sorry, something went wrong during authentication. Please try again later.' });
       return;
     }
 
-    if (!theUser) {
+    if (!theUser) {      
       console.log('Error 2 ===> ', failureDetails);
-      res.status(401).json(failureDetails);
+      res.status(401).json({ errorMessage: failureDetails.message});
       return;
     }
 
     req.login(theUser, (err) => {
       if (err) {
         console.log('Error 3 ===> ', err);
-        res.status(500).json({ message: 'Session save went bad.' });
+        res.status(500).json({ errorMessage: 'Sorry, session save went baddly. Please try again later.' });
         return;
       }
 
@@ -117,7 +117,7 @@ authRoutes.post('/login', async (req, res, next) => {
 
 authRoutes.post('/logout', async (req, res, next) => {
   await req.logout();
-  res.status(200).json({ message: 'Log out success!' });
+  res.status(200).json({ errorMessage: 'Successfully logged out' });
 });
 
 authRoutes.get('/loggedin', (req, res, next) => {
@@ -125,7 +125,7 @@ authRoutes.get('/loggedin', (req, res, next) => {
     res.status(200).json(req.user);
     return;
   }
-  res.status(403).json({ message: 'Unauthorized' });
+  res.status(403).json({ errorMessage: 'Unauthorized' });
 });
 
 module.exports = authRoutes;
