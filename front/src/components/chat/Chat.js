@@ -5,9 +5,9 @@ import './Chat.css';
 import socketIOClient from 'socket.io-client';
 import AuthService from './chat-service';
 
-const apiKey = 'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw';
+const apiKey = process.env.API_KEY;
 const googleTranslate = require('google-translate')(
-	'AIzaSyCbI4wrAH6It6SAXRH2vkHqxGHXAWcHGYw'
+	apiKey
 );
 
 const socket = socketIOClient(process.env.REACT_APP_BACK_ADDRESS);
