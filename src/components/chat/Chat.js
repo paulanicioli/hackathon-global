@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import axios from 'axios';
 import './Chat.css';
 import socketIOClient from 'socket.io-client';
@@ -18,6 +18,7 @@ class Chat extends Component {
   constructor() {
     super();
     this.service = new AuthService();
+    this.scrollContainer = createRef();
     this.state = {
       message: '',
       chat: [],
@@ -40,21 +41,23 @@ class Chat extends Component {
 
   componentDidMount() {
     socket.on('new-message', (message) => {
-      console.log(message, typeof message.timestamp);
-      getPromise(apiKey, this.state.language, message.message).then((promise) =>
-        this.setState({
-          chat: [
-            ...this.state.chat,
-            {
-              translated_message:
-                promise.data.data.translations[0].translatedText,
-              message: message.message,
-              username: message.username,
-              timestamp: message.timestamp,
-              pictureUrl: message.pictureUrl,
-            },
-          ],
-        })
+      getPromise(apiKey, this.state.language, message.message).then(
+        (promise) => {
+          this.setState({
+            chat: [
+              ...this.state.chat,
+              {
+                translated_message:
+                  promise.data.data.translations[0].translatedText,
+                message: message.message,
+                username: message.username,
+                timestamp: message.timestamp,
+                pictureUrl: message.pictureUrl,
+              },
+            ],
+          });
+          this.scrollContainer.current.scrollBy(0, 150);
+        }
       );
     });
 
@@ -172,35 +175,38 @@ class Chat extends Component {
     const { languageCodes, language } = this.state;
 
     return (
-      <div>
-        <select
-          className="select-language"
-          value={language}
-          onChange={(e) => {
-            this.changeHandler(e.target.value);
-            this.setState({ language: e.target.value });
-          }}
-        >
-          {languageCodes ? (
-            languageCodes.map((lang) => (
-              <option key={lang.language} value={lang.language}>
-                {lang.name}
-              </option>
-            ))
-          ) : (
-            <></>
-          )}
-        </select>
-      </div>
+      <select
+        className="select-language"
+        value={language}
+        onChange={(e) => {
+          this.changeHandler(e.target.value);
+          this.setState({ language: e.target.value });
+        }}
+      >
+        {languageCodes ? (
+          languageCodes.map((lang) => (
+            <option key={lang.language} value={lang.language}>
+              {lang.name}
+            </option>
+          ))
+        ) : (
+          <></>
+        )}
+      </select>
     );
   }
 
   render() {
     return (
       <div className="chat-container">
-        <div className="chat">{this.renderChat()}</div>
+        <div ref={this.scrollContainer} className="chat">
+          {this.renderChat()}
+        </div>
         <div className="chat-input">
-          <div className="chat-language">{this.languageOptions()}</div>
+          <div className="chat-language">
+            <h5>Translate messages to: </h5>
+            {this.languageOptions()}
+          </div>
           <form onSubmit={(e) => e.preventDefault()}>
             <input
               name="message"

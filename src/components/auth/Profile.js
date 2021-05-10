@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 
 class Profile extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loggedInUser: '',
+    };
+  }
+
   render() {
     if (this.props.userInSession) {
       return (
