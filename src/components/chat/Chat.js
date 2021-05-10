@@ -66,7 +66,7 @@ class Chat extends Component {
     };
 
     googleTranslate.getSupportedLanguages('en', function (err, languageCodes) {
-      getLanguageCodes(languageCodes); // use a callback function to setState
+      getLanguageCodes(languageCodes);
     });
   }
 
@@ -98,7 +98,6 @@ class Chat extends Component {
   };
 
   onMessageSubmit = () => {
-    // const message = this.state;
     socket.emit('message', {
       message: this.state.message,
       username: this.props.userInSession
@@ -154,6 +153,7 @@ class Chat extends Component {
           </div>
           <div
             className={
+              this.props.userInSession &&
               msg.username === this.props.userInSession.username
                 ? 'timestampR'
                 : 'timestampL'
