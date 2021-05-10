@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { Component } from 'react';
 import axios from 'axios';
 import './Chat.css';
@@ -17,7 +16,7 @@ function getPromise(key, lang, text) {
     `https://translation.googleapis.com/language/translate/v2?key=${key}&target=${lang}&q=${text}`
   );
 }
-class Chat extends React.Component {
+class Chat extends Component {
   constructor() {
     super();
     this.service = new AuthService();
@@ -53,6 +52,7 @@ class Chat extends React.Component {
               message: message.message,
               username: message.username,
               timestamp: message.timestamp,
+              pictureUrl: message.pictureUrl,
             },
             ...this.state.chat,
           ],
@@ -81,6 +81,7 @@ class Chat extends React.Component {
         message: chat[index].message,
         username: chat[index].username,
         timestamp: chat[index].timestamp,
+        pictureUrl: chat[index].pictureUrl,
         translated_message: promise.data.data.translations[0].translatedText,
       };
       return obj;
@@ -103,6 +104,9 @@ class Chat extends React.Component {
         ? this.props.userInSession.username
         : 'anonnymous',
       timestamp: new Date(),
+      pictureUrl: this.props.userInSession
+        ? this.props.userInSession.pictureUrl
+        : 'https://res.cloudinary.com/de4qbzjqh/image/upload/v1620587690/ironhack-hackathon/avatar_placeholer_yebnnp.png',
     });
     let messageLanguage = '';
     let user = '';
@@ -121,25 +125,44 @@ class Chat extends React.Component {
 
   renderChat() {
     const { chat } = this.state;
+
     return chat.map((msg, id) => (
-      <div className="msg" key={id}>
-        <h2>
-          <span>{new Date(msg.timestamp).toLocaleTimeString()}</span>
-        </h2>
-        <br />
-        <h2>
-          <span>{msg.username}</span>
-        </h2>
-        <h2>
-          <span>{msg.message}</span>
-        </h2>
-        {msg.translated_message !== msg.message ? (
-          <h2>
-            <span>{msg.translated_message}</span>
-          </h2>
-        ) : (
-          <> </>
-        )}
+      <div
+        className={
+          msg.username === this.props.userInSession.username
+            ? 'chat-messagesR'
+            : 'chat-messagesL'
+        }
+      >
+        {/* {this.renderChat()} */}
+        <div
+          className={
+            msg.username === this.props.userInSession.username
+              ? 'msg-boxR'
+              : 'msg-boxL'
+          }
+        >
+          <div className="msg-box-msg">
+            <span>{msg.message}</span>
+            <br />
+            {msg.message === msg.translated_message ? null : (
+              <span>Translated: {msg.translated_message}</span>
+            )}
+          </div>
+          <div
+            className={
+              msg.username === this.props.userInSession.username
+                ? 'timestampR'
+                : 'timestampL'
+            }
+          >
+            {new Date(msg.timestamp).toLocaleTimeString()}
+          </div>
+        </div>
+        <div className="msg-box-user">
+          <span className="msg-box-user">{msg.username}</span>
+          <img className="msg-user-img" src={msg.pictureUrl} alt="user" />
+        </div>
       </div>
     ));
   }
@@ -150,7 +173,6 @@ class Chat extends React.Component {
 
     return (
       <div>
-        {this.renderChat()}
         <select
           className="select-language"
           value={language}
@@ -169,28 +191,27 @@ class Chat extends React.Component {
             <></>
           )}
         </select>
-        <button onClick={this.loadMessages}>See previous messages</button>
       </div>
     );
   }
 
   render() {
     return (
-      <div className="bar">
-        <div className="newMsg">
+      <div className="chat-container">
+        <div className="chat">{this.renderChat()}</div>
+        <div className="chat-input">
+          <div className="chat-language">{this.languageOptions()}</div>
           <input
-            className="messageBar"
             name="message"
+            type="textarea"
             onChange={(event) => this.onTextChange(event)}
             value={this.state.message}
-            autocomplete="off"
+            autoComplete="off"
           />
           <button onClick={this.onMessageSubmit} className="sendBtn">
             Send
           </button>
-          {/* <div>{this.renderChat()}</div> */}
         </div>
-        <div>{this.languageOptions()}</div>
       </div>
     );
   }

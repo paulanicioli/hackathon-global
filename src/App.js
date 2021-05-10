@@ -3,8 +3,10 @@ import './App.css';
 
 import NavBarCustom from './components/navbar/Navbar';
 import Signup from './components/auth/Signup';
+import Profile from './components/auth/Profile';
 import './components/auth/Signup.css';
 import './components/navbar/Navbar.css';
+import './components/auth/Profile.css';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/auth-service';
 
@@ -50,6 +52,13 @@ class App extends Component {
               exact
               path="/chat"
               component={() => <Chat userInSession={this.state.loggedInUser} />}
+            />
+            <Route
+              exact
+              path="/my-profile"
+              component={() => (
+                <Profile userInSession={this.state.loggedInUser} />
+              )}
             />
             <Route
               path="/"

@@ -37,7 +37,7 @@ class AuthService {
     const response = await this.service
       .get('/loggedin')
       .then((response) => response.data);
-    // return response;
+    return response;
   };
 
   login = async (username, password) => {
