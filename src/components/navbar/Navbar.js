@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import AuthService from '../auth/auth-service';
 
 import { Navbar, Nav, NavDropdown, Image } from 'react-bootstrap';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 class NavBarCustom extends Component {
   state = { loggedInUser: null };
 
