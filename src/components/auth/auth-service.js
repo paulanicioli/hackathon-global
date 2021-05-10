@@ -44,11 +44,8 @@ class AuthService {
     try {
       const loggedUser = await this.service
         .post('/login', { username: username, password: password })
-
-        console.log(loggedUser)
-
       
-      return loggedUser
+      return loggedUser.data
     }
 
     catch(err) {
