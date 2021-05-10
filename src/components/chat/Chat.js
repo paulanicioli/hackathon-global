@@ -44,6 +44,7 @@ class Chat extends Component {
       getPromise(apiKey, this.state.language, message.message).then((promise) =>
         this.setState({
           chat: [
+            ...this.state.chat,
             {
               translated_message:
                 promise.data.data.translations[0].translatedText,
@@ -52,7 +53,6 @@ class Chat extends Component {
               timestamp: message.timestamp,
               pictureUrl: message.pictureUrl,
             },
-            ...this.state.chat,
           ],
         })
       );
