@@ -208,7 +208,11 @@ class Chat extends Component {
             value={this.state.message}
             autoComplete="off"
           />
-          <button onClick={this.onMessageSubmit} className="sendBtn">
+          <button
+            type="submit"
+            onClick={this.onMessageSubmit}
+            className="sendBtn"
+          >
             Send
           </button>
         </div>
