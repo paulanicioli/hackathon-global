@@ -9,7 +9,7 @@ Please proceed to [IronChat](http://ironchat.herokuapp.com/) to use the app. We'
 
 ## Authors
 
-- Pietro Ballarini
+- Pietro Ballarin
 - Sullivan
 - Aurelie
 - Thais Bittencourt
